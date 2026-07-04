@@ -18,13 +18,13 @@ site web/
 └── sitemap.xml             → plan du site pour Google
 ```
 
-## Les 2 choses à remplacer avant la mise en ligne
+## À remplacer plus tard
 
-1. **PLACEHOLDER-EMAIL** → mon adresse email. Elle apparaît dans :
+1. **olan.jouan@gmail.com** → la future adresse email pro. Elle apparaît dans :
    - `index.html` (footer)
    - `merci.html` (footer)
    - `mentions-legales.html` (3 endroits + footer)
-2. **PLACEHOLDER-DOMAINE.fr** → le vrai nom de domaine. Il apparaît dans :
+2. **olanjouan-site.vercel.app** → le vrai nom de domaine, une fois acheté. Il apparaît dans :
    - `index.html` (balises canonical, Open Graph, JSON-LD)
    - `robots.txt`
    - `sitemap.xml`
