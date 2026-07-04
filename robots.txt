@@ -1,0 +1,6 @@
+# Remplacer PLACEHOLDER-DOMAINE.fr par le vrai nom de domaine une fois acheté
+User-agent: *
+Allow: /
+Disallow: /merci.html
+
+Sitemap: https://PLACEHOLDER-DOMAINE.fr/sitemap.xml
