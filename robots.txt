@@ -1,6 +1,5 @@
-# Adresse Vercel provisoire : remplacer par le vrai nom de domaine une fois acheté
 User-agent: *
 Allow: /
 Disallow: /merci.html
 
-Sitemap: https://olanjouan-site.vercel.app/sitemap.xml
+Sitemap: https://olanjouan.fr/sitemap.xml

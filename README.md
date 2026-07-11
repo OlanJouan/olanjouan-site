@@ -24,7 +24,7 @@ site web/
    - `index.html` (footer)
    - `merci.html` (footer)
    - `mentions-legales.html` (3 endroits + footer)
-2. **olanjouan-site.vercel.app** → le vrai nom de domaine, une fois acheté. Il apparaît dans :
+2. **olanjouan.fr** → le vrai nom de domaine, une fois acheté. Il apparaît dans :
    - `index.html` (balises canonical, Open Graph, JSON-LD)
    - `robots.txt`
    - `sitemap.xml`
@@ -74,7 +74,7 @@ Le premier commit est déjà fait, pas besoin de `git add` ni `git commit`.)
 5. Cliquer sur **Deploy**
 
 Le site est en ligne en moins d'une minute, sur une adresse du type
-`olanjouan-site.vercel.app`.
+`olanjouan.fr`.
 
 Ensuite, à chaque fois qu'on pousse du code sur GitHub (`git push`),
 Vercel met le site à jour automatiquement.
