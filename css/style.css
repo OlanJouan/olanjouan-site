@@ -263,6 +263,45 @@ section { padding: 3.5rem 0; }
   font-weight: 600;
 }
 
+/* ===== Les métiers ===== */
+.metiers-intro {
+  color: var(--charbon-doux);
+  font-size: 1.1rem;
+  max-width: 42rem;
+  margin-bottom: 2.5rem;
+}
+
+.metiers-grille {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.metier-carte {
+  margin: 0;
+  background-color: var(--blanc);
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  overflow: hidden;
+  box-shadow: var(--ombre);
+}
+
+.metier-carte picture { display: block; }
+
+.metier-carte img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.metier-carte figcaption {
+  font-family: var(--titres);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--charbon);
+  padding: 0.9rem 1.1rem;
+}
+
 /* ===== Mon histoire ===== */
 .histoire-grille {
   display: flex;
@@ -701,6 +740,8 @@ textarea { resize: vertical; }
     align-items: center;
     gap: 3.5rem;
   }
+
+  .metiers-grille { grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
 
   .histoire-photo { flex: 0 0 38%; }
   .histoire-photo img { max-width: 100%; }
