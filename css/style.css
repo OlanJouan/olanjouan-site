@@ -773,6 +773,37 @@ textarea { resize: vertical; }
 
 [hidden] { display: none !important; }
 
+/* ===== Tarif fondateur =====
+   Piloté par un seul attribut : <body data-fondateur="oui"> ou "non".
+   « non » masque le bandeau, la note explicative et les prix remisés ;
+   les prix normaux reprennent alors leur affichage habituel. */
+
+/* Offre active : le prix normal se barre, le prix fondateur passe devant */
+[data-fondateur="oui"] .prix-plein {
+  font-family: var(--texte);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--charbon-doux);
+  text-decoration: line-through;
+  margin-right: 0.3rem;
+}
+
+/* Offre terminée : plus aucune trace de la remise */
+[data-fondateur="non"] .prix-fondateur,
+[data-fondateur="non"] .bandeau-fondateur,
+[data-fondateur="non"] .note-fondateur { display: none; }
+
+/* Dans le tableau et dans les lignes de texte, le prix barré reste discret */
+.tableau .prix-plein { font-size: 0.9rem; }
+.carte-teaser-mensuel .prix-plein,
+.suivi .prix-plein { font-size: inherit; margin-right: 0.25rem; }
+
+.note-fondateur {
+  color: var(--charbon);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
 /* ===== Bandeau tarif fondateur ===== */
 .bandeau-fondateur {
   background-color: var(--charbon);
@@ -849,8 +880,10 @@ textarea { resize: vertical; }
 
 .btn-auto { max-width: 26rem; }
 
-/* Quand le bandeau est fermé, l'intro doit dégager le header fixe */
-.bandeau-fondateur[hidden] + main .tarifs-intro { padding-top: 7rem; }
+/* Sans bandeau (fermé par le visiteur, ou offre terminée), l'intro doit
+   dégager le header fixe toute seule */
+.bandeau-fondateur[hidden] + main .tarifs-intro,
+[data-fondateur="non"] .tarifs-intro { padding-top: 7rem; }
 
 /* ===== Bascule avec / sans abonnement ===== */
 .bascule-zone { margin-bottom: 2.5rem; }
@@ -1312,7 +1345,8 @@ textarea { resize: vertical; }
   .bandeau-titre { margin-bottom: 0; flex-shrink: 0; }
 
   .tarifs-intro { padding-top: 3rem; }
-  .bandeau-fondateur[hidden] + main .tarifs-intro { padding-top: 8rem; }
+  .bandeau-fondateur[hidden] + main .tarifs-intro,
+  [data-fondateur="non"] .tarifs-intro { padding-top: 8rem; }
 
   .btn-auto { width: auto; }
 

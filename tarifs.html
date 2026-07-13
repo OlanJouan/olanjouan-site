@@ -188,7 +188,14 @@
   }
   </script>
 </head>
-<body>
+
+<!-- ===================================================================
+     TARIF FONDATEUR
+     Quand vos 5 places sont prises : remplacez oui par non ci-dessous.
+     Le bandeau disparaît, les prix barrés disparaissent, et les prix
+     normaux reprennent leur place. C'est le seul mot à changer.
+     =================================================================== -->
+<body data-fondateur="oui">
 
   <header class="header" id="header">
     <div class="header-inner">
@@ -215,9 +222,9 @@
        <span id="places-restantes">…</span>. C'est le seul endroit à toucher. -->
   <aside class="bandeau-fondateur" id="bandeau-fondateur" aria-label="Offre tarif fondateur">
     <div class="bandeau-inner">
-      <p class="bandeau-titre">Tarif fondateur&nbsp;: −30&nbsp;% sur toutes les formules</p>
+      <p class="bandeau-titre">Tarif fondateur&nbsp;: −30&nbsp;% sur la création</p>
       <p class="bandeau-texte">
-        Pour mes 5 premiers clients. En échange&nbsp;: un avis Google, un témoignage, et le droit de montrer votre site dans mes réalisations.
+        Pour mes 5 premiers clients, sur toutes les formules et sur la fiche Google (l'abonnement mensuel reste au tarif normal). En échange&nbsp;: un avis Google, un témoignage, et le droit de montrer votre site dans mes réalisations.
         <span class="bandeau-places">Places restantes&nbsp;: <span id="places-restantes">5</span></span>
       </p>
     </div>
@@ -266,11 +273,15 @@
 
             <div class="carte-prix-zone">
               <p class="carte-prix prix-abonnement">
-                990&nbsp;€ <span class="carte-prix-detail">HT</span>
+                <span class="prix-plein">990&nbsp;€</span>
+                <span class="prix-fondateur">693&nbsp;€</span>
+                <span class="carte-prix-detail">HT</span>
                 <span class="carte-prix-mensuel">+ 49&nbsp;€&nbsp;HT/mois</span>
               </p>
               <p class="carte-prix prix-sans">
-                1&nbsp;890&nbsp;€ <span class="carte-prix-detail">HT</span>
+                <span class="prix-plein">1&nbsp;890&nbsp;€</span>
+                <span class="prix-fondateur">1&nbsp;323&nbsp;€</span>
+                <span class="carte-prix-detail">HT</span>
                 <span class="carte-prix-mensuel">paiement unique</span>
               </p>
             </div>
@@ -299,11 +310,15 @@
 
             <div class="carte-prix-zone">
               <p class="carte-prix prix-abonnement">
-                1&nbsp;990&nbsp;€ <span class="carte-prix-detail">HT</span>
+                <span class="prix-plein">1&nbsp;990&nbsp;€</span>
+                <span class="prix-fondateur">1&nbsp;393&nbsp;€</span>
+                <span class="carte-prix-detail">HT</span>
                 <span class="carte-prix-mensuel">+ 89&nbsp;€&nbsp;HT/mois</span>
               </p>
               <p class="carte-prix prix-sans">
-                3&nbsp;490&nbsp;€ <span class="carte-prix-detail">HT</span>
+                <span class="prix-plein">3&nbsp;490&nbsp;€</span>
+                <span class="prix-fondateur">2&nbsp;443&nbsp;€</span>
+                <span class="carte-prix-detail">HT</span>
                 <span class="carte-prix-mensuel">paiement unique</span>
               </p>
             </div>
@@ -331,11 +346,15 @@
 
             <div class="carte-prix-zone">
               <p class="carte-prix prix-abonnement">
-                3&nbsp;490&nbsp;€ <span class="carte-prix-detail">HT</span>
+                <span class="prix-plein">3&nbsp;490&nbsp;€</span>
+                <span class="prix-fondateur">2&nbsp;443&nbsp;€</span>
+                <span class="carte-prix-detail">HT</span>
                 <span class="carte-prix-mensuel">+ 129&nbsp;€&nbsp;HT/mois</span>
               </p>
               <p class="carte-prix prix-sans">
-                5&nbsp;490&nbsp;€ <span class="carte-prix-detail">HT</span>
+                <span class="prix-plein">5&nbsp;490&nbsp;€</span>
+                <span class="prix-fondateur">3&nbsp;843&nbsp;€</span>
+                <span class="carte-prix-detail">HT</span>
                 <span class="carte-prix-mensuel">paiement unique</span>
               </p>
             </div>
@@ -356,6 +375,10 @@
           </article>
 
         </div>
+
+        <p class="formules-note note-fondateur">
+          Les prix barrés sont mes tarifs normaux. Les prix affichés sont les tarifs fondateurs&nbsp;: −30&nbsp;% sur la création, pour mes 5 premiers clients. L'abonnement mensuel, lui, reste au tarif normal.
+        </p>
 
         <p class="formules-note">
           Acompte de 40&nbsp;% à la commande, solde avant la mise en ligne. Prix en euros hors taxes.<br>
@@ -387,7 +410,11 @@
             </p>
           </div>
           <div class="porte-entree-prix">
-            <p class="carte-prix">390&nbsp;€ <span class="carte-prix-detail">HT</span></p>
+            <p class="carte-prix">
+              <span class="prix-plein">390&nbsp;€</span>
+              <span class="prix-fondateur">273&nbsp;€</span>
+              <span class="carte-prix-detail">HT</span>
+            </p>
             <a href="/#contact" class="btn btn-carte btn-plein" data-formule="Fiche Google Business – 390 € HT">Choisir la fiche Google</a>
           </div>
         </div>
@@ -437,15 +464,15 @@
             <tbody>
               <tr>
                 <th scope="row">Prix de création (avec abonnement)</th>
-                <td>990&nbsp;€ HT</td>
-                <td>1&nbsp;990&nbsp;€ HT</td>
-                <td>3&nbsp;490&nbsp;€ HT</td>
+                <td><span class="prix-plein">990&nbsp;€</span> <span class="prix-fondateur">693&nbsp;€</span> HT</td>
+                <td><span class="prix-plein">1&nbsp;990&nbsp;€</span> <span class="prix-fondateur">1&nbsp;393&nbsp;€</span> HT</td>
+                <td><span class="prix-plein">3&nbsp;490&nbsp;€</span> <span class="prix-fondateur">2&nbsp;443&nbsp;€</span> HT</td>
               </tr>
               <tr>
                 <th scope="row">Prix de création (sans abonnement)</th>
-                <td>1&nbsp;890&nbsp;€ HT</td>
-                <td>3&nbsp;490&nbsp;€ HT</td>
-                <td>5&nbsp;490&nbsp;€ HT</td>
+                <td><span class="prix-plein">1&nbsp;890&nbsp;€</span> <span class="prix-fondateur">1&nbsp;323&nbsp;€</span> HT</td>
+                <td><span class="prix-plein">3&nbsp;490&nbsp;€</span> <span class="prix-fondateur">2&nbsp;443&nbsp;€</span> HT</td>
+                <td><span class="prix-plein">5&nbsp;490&nbsp;€</span> <span class="prix-fondateur">3&nbsp;843&nbsp;€</span> HT</td>
               </tr>
               <tr>
                 <th scope="row">Abonnement mensuel</th>

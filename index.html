@@ -116,7 +116,14 @@
   }
   </script>
 </head>
-<body>
+
+<!-- ===================================================================
+     TARIF FONDATEUR
+     Quand vos 5 places sont prises : remplacez oui par non ci-dessous,
+     ET faites la même chose dans tarifs.html. Les prix barrés et la
+     mention du tarif fondateur disparaissent des deux pages.
+     =================================================================== -->
+<body data-fondateur="oui">
 
   <header class="header" id="header">
     <div class="header-inner">
@@ -245,13 +252,21 @@
         <h2>Des prix affichés, comme sur un devis honnête</h2>
         <p class="formules-intro">Vous savez ce que vous payez, et ce que vous avez pour ce prix. Rien de plus à la fin.</p>
 
+        <p class="formules-intro note-fondateur">
+          Tarif fondateur&nbsp;: −30&nbsp;% sur la création pour mes 5 premiers clients. Les prix barrés sont mes tarifs normaux. <a href="tarifs.html">Voir les conditions</a>.
+        </p>
+
         <div class="cartes">
 
           <article class="carte">
             <h3>Essentiel</h3>
             <p class="carte-sous-titre">Site one-page</p>
-            <p class="carte-teaser-prix">990&nbsp;€ <span class="carte-prix-detail">HT</span></p>
-            <p class="carte-teaser-mensuel">+ 49&nbsp;€&nbsp;HT/mois — ou 1&nbsp;890&nbsp;€&nbsp;HT sans abonnement</p>
+            <p class="carte-teaser-prix">
+              <span class="prix-plein">990&nbsp;€</span>
+              <span class="prix-fondateur">693&nbsp;€</span>
+              <span class="carte-prix-detail">HT</span>
+            </p>
+            <p class="carte-teaser-mensuel">+ 49&nbsp;€&nbsp;HT/mois — ou <span class="prix-plein">1&nbsp;890&nbsp;€</span><span class="prix-fondateur">1&nbsp;323&nbsp;€</span>&nbsp;HT sans abonnement</p>
             <p class="carte-pour">Une seule page, qui dit tout&nbsp;: qui vous êtes, ce que vous faites, comment vous joindre.</p>
             <ul>
               <li>Site one-page, textes rédigés par mes soins</li>
@@ -265,8 +280,12 @@
             <p class="badge">Le plus choisi</p>
             <h3>Pro</h3>
             <p class="carte-sous-titre">Site vitrine</p>
-            <p class="carte-teaser-prix">1&nbsp;990&nbsp;€ <span class="carte-prix-detail">HT</span></p>
-            <p class="carte-teaser-mensuel">+ 89&nbsp;€&nbsp;HT/mois — ou 3&nbsp;490&nbsp;€&nbsp;HT sans abonnement</p>
+            <p class="carte-teaser-prix">
+              <span class="prix-plein">1&nbsp;990&nbsp;€</span>
+              <span class="prix-fondateur">1&nbsp;393&nbsp;€</span>
+              <span class="carte-prix-detail">HT</span>
+            </p>
+            <p class="carte-teaser-mensuel">+ 89&nbsp;€&nbsp;HT/mois — ou <span class="prix-plein">3&nbsp;490&nbsp;€</span><span class="prix-fondateur">2&nbsp;443&nbsp;€</span>&nbsp;HT sans abonnement</p>
             <p class="carte-pour">Plusieurs pages, une par service et par ville. La formule qui fait sonner le téléphone.</p>
             <ul>
               <li>Site vitrine de 5 à 8 pages</li>
@@ -279,8 +298,12 @@
           <article class="carte">
             <h3>Boutique</h3>
             <p class="carte-sous-titre">Site e-commerce</p>
-            <p class="carte-teaser-prix">3&nbsp;490&nbsp;€ <span class="carte-prix-detail">HT</span></p>
-            <p class="carte-teaser-mensuel">+ 129&nbsp;€&nbsp;HT/mois — ou 5&nbsp;490&nbsp;€&nbsp;HT sans abonnement</p>
+            <p class="carte-teaser-prix">
+              <span class="prix-plein">3&nbsp;490&nbsp;€</span>
+              <span class="prix-fondateur">2&nbsp;443&nbsp;€</span>
+              <span class="carte-prix-detail">HT</span>
+            </p>
+            <p class="carte-teaser-mensuel">+ 129&nbsp;€&nbsp;HT/mois — ou <span class="prix-plein">5&nbsp;490&nbsp;€</span><span class="prix-fondateur">3&nbsp;843&nbsp;€</span>&nbsp;HT sans abonnement</p>
             <p class="carte-pour">Pour vendre en ligne, encaisser en ligne, et livrer ou faire retirer sur place.</p>
             <ul>
               <li>Boutique jusqu'à 30 produits</li>
@@ -295,7 +318,7 @@
         <aside class="suivi">
           <div class="suivi-texte">
             <h3>Pas encore prêt pour un site&nbsp;? Commencez par la fiche Google</h3>
-            <p><strong>390&nbsp;€ HT.</strong> Votre fiche Google Business créée, optimisée et remplie&nbsp;: photos, services, zone d'intervention, collecte d'avis. C'est elle qui vous fait sortir sur Maps quand quelqu'un cherche votre métier dans votre ville. Livrée en 3 jours.</p>
+            <p><strong><span class="prix-plein">390&nbsp;€</span><span class="prix-fondateur">273&nbsp;€</span>&nbsp;HT.</strong> Votre fiche Google Business créée, optimisée et remplie&nbsp;: photos, services, zone d'intervention, collecte d'avis. C'est elle qui vous fait sortir sur Maps quand quelqu'un cherche votre métier dans votre ville. Livrée en 3 jours.</p>
           </div>
           <a href="#contact" class="btn btn-carte" data-formule="Fiche Google Business – 390 € HT">Ça m'intéresse</a>
         </aside>
