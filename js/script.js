@@ -39,24 +39,89 @@
     });
   });
 
+  /* ===== Page tarifs : bascule avec / sans abonnement ===== */
+  var basculeZone = document.getElementById("bascule-zone");
+  var cartesTarifs = document.getElementById("cartes-tarifs");
+  var btnAbonnement = document.getElementById("btn-abonnement");
+  var btnSans = document.getElementById("btn-sans");
+
+  if (basculeZone && cartesTarifs && btnAbonnement && btnSans) {
+    // La bascule n'apparaît que si le JS tourne : sans lui, les prix « avec
+    // abonnement » écrits en dur dans le HTML restent affichés.
+    basculeZone.hidden = false;
+
+    var basculer = function (mode) {
+      cartesTarifs.setAttribute("data-mode", mode);
+      btnAbonnement.setAttribute("aria-pressed", mode === "abonnement" ? "true" : "false");
+      btnSans.setAttribute("aria-pressed", mode === "sans" ? "true" : "false");
+    };
+
+    btnAbonnement.addEventListener("click", function () { basculer("abonnement"); });
+    btnSans.addEventListener("click", function () { basculer("sans"); });
+  }
+
+  /* ===== Page tarifs : bandeau tarif fondateur ===== */
+  var bandeau = document.getElementById("bandeau-fondateur");
+  var bandeauFermer = document.getElementById("bandeau-fermer");
+
+  if (bandeau && bandeauFermer) {
+    bandeauFermer.addEventListener("click", function () {
+      bandeau.hidden = true;
+    });
+  }
+
   /* ===== Boutons de formule : scroll + pré-remplissage ===== */
   var champFormule = document.getElementById("champ-formule");
   var encart = document.getElementById("formule-choisie");
   var encartNom = document.getElementById("formule-choisie-nom");
   var boutonRetirer = document.getElementById("formule-retirer");
 
+  function afficherFormuleChoisie(formule) {
+    if (champFormule) champFormule.value = formule;
+    if (encart && encartNom) {
+      encartNom.textContent = formule;
+      encart.hidden = false;
+    }
+  }
+
   document.querySelectorAll("[data-formule]").forEach(function (bouton) {
-    bouton.addEventListener("click", function () {
+    bouton.addEventListener("click", function (evenement) {
       var formule = bouton.getAttribute("data-formule");
-      if (champFormule) champFormule.value = formule;
-      if (encart && encartNom) {
-        encartNom.textContent = formule;
-        encart.hidden = false;
-      }
       var contact = document.getElementById("contact");
-      if (contact) contact.scrollIntoView({ behavior: "smooth" });
+
+      if (contact) {
+        // Le formulaire est sur la même page (accueil)
+        evenement.preventDefault();
+        afficherFormuleChoisie(formule);
+        contact.scrollIntoView({ behavior: "smooth" });
+      } else {
+        // Le formulaire est ailleurs (page tarifs) : on emporte la formule dans l'adresse.
+        // On vise la racine « / » et non « index.html » : certains hébergeurs redirigent
+        // index.html vers / et perdent le paramètre au passage.
+        evenement.preventDefault();
+        window.location.href = "/?formule=" + encodeURIComponent(formule) + "#contact";
+      }
     });
   });
+
+  // Arrivée depuis la page tarifs : on relit la formule dans l'adresse
+  if (champFormule && window.location.search) {
+    var formuleUrl = new URLSearchParams(window.location.search).get("formule");
+    if (formuleUrl) afficherFormuleChoisie(formuleUrl.slice(0, 80));
+  }
+
+  /* ===== Arrivée sur une ancre depuis une autre page =====
+     Le CSS complet est chargé sans bloquer l'affichage : quand le navigateur saute
+     à l'ancre, la mise en page n'est pas encore définitive et il atterrit au mauvais
+     endroit. On refait donc le saut une fois la page complètement chargée. */
+  if (window.location.hash.length > 1) {
+    var ancre = document.getElementById(window.location.hash.slice(1));
+    if (ancre) {
+      window.addEventListener("load", function () {
+        ancre.scrollIntoView({ behavior: "instant", block: "start" });
+      });
+    }
+  }
 
   if (boutonRetirer) {
     boutonRetirer.addEventListener("click", function () {

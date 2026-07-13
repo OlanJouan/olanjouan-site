@@ -171,14 +171,20 @@ section { padding: 3.5rem 0; }
   font-weight: 600;
   font-size: 0.95rem;
   padding: 0.4rem 0;
+  white-space: nowrap;
 }
 
 .nav a:hover { color: var(--terracotta); }
+
+/* Le nom ne doit jamais passer sur deux lignes : le header resterait haut
+   et recouvrirait le contenu placé juste en dessous. */
+.logo-nom { white-space: nowrap; }
 
 .btn-header {
   display: none;
   font-size: 0.9rem;
   padding: 0.6rem 1.1rem;
+  white-space: nowrap;
 }
 
 .burger {
@@ -749,13 +755,503 @@ textarea { resize: vertical; }
 .merci-carte .btn { margin-top: 1.5rem; width: auto; }
 
 /* ==========================================================
+   PAGE TARIFS
+   ========================================================== */
+
+/* Utilitaire : lu par les lecteurs d'écran, invisible à l'œil */
+.visuellement-cache {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+[hidden] { display: none !important; }
+
+/* ===== Bandeau tarif fondateur ===== */
+.bandeau-fondateur {
+  background-color: var(--charbon);
+  color: var(--creme);
+  padding: 1rem 0;
+  position: relative;
+  margin-top: 4.2rem; /* passe sous le header fixe */
+}
+
+.bandeau-inner {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 0 3rem 0 1.25rem;
+}
+
+.bandeau-titre {
+  font-family: var(--titres);
+  font-weight: 700;
+  color: var(--blanc);
+  margin-bottom: 0.25rem;
+  font-size: 1.05rem;
+}
+
+.bandeau-texte {
+  font-size: 0.95rem;
+  color: #D8D2C8;
+  margin-bottom: 0;
+}
+
+.bandeau-places {
+  color: var(--blanc);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.bandeau-fermer {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  color: #D8D2C8;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.bandeau-fermer:hover { color: var(--blanc); }
+
+/* ===== Introduction ===== */
+.tarifs-intro {
+  padding-top: 2rem;
+  text-align: center;
+}
+
+.tarifs-intro h1 { margin-bottom: 1rem; }
+
+.tarifs-chapo {
+  color: var(--charbon-doux);
+  font-size: 1.15rem;
+  max-width: 44rem;
+  margin: 0 auto 1.5rem;
+}
+
+.btn-auto { max-width: 26rem; }
+
+/* Quand le bandeau est fermé, l'intro doit dégager le header fixe */
+.bandeau-fondateur[hidden] + main .tarifs-intro { padding-top: 7rem; }
+
+/* ===== Bascule avec / sans abonnement ===== */
+.bascule-zone { margin-bottom: 2.5rem; }
+
+.bascule {
+  display: flex;
+  max-width: 26rem;
+  margin: 0 auto 1rem;
+  background-color: var(--blanc);
+  border: 1.5px solid var(--bordure);
+  border-radius: var(--rayon);
+  padding: 4px;
+  gap: 4px;
+}
+
+.bascule-btn {
+  flex: 1;
+  font-family: var(--texte);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--charbon-doux);
+  background: none;
+  border: none;
+  border-radius: 7px;
+  padding: 0.7rem 0.5rem;
+  min-height: 44px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.bascule-btn:hover { color: var(--charbon); }
+
+.bascule-btn[aria-pressed="true"] {
+  background-color: var(--terracotta);
+  color: var(--blanc);
+}
+
+.bascule-explication {
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--charbon-doux);
+  max-width: 46rem;
+  margin: 0 auto;
+}
+
+.bascule-explication strong { color: var(--charbon); }
+
+/* ===== Cartes tarifaires ===== */
+.cartes-tarifs .prix-sans { display: none; }
+.cartes-tarifs[data-mode="sans"] .prix-abonnement { display: none; }
+.cartes-tarifs[data-mode="sans"] .prix-sans { display: block; }
+
+/* Hauteur réservée : la bascule ne décale rien */
+.carte-prix-zone {
+  min-height: 4.6rem;
+  margin-bottom: 1rem;
+}
+
+.carte-prix-zone .carte-prix { margin-bottom: 0; }
+
+.carte-sous-titre {
+  color: var(--olive);
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.75rem;
+}
+
+.carte-prix-mensuel {
+  display: block;
+  font-family: var(--texte);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--charbon-doux);
+  margin-top: 0.35rem;
+  line-height: 1.3;
+}
+
+.carte-heritage {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--charbon);
+  margin-bottom: 0.6rem;
+}
+
+.carte-delai {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--olive);
+  border-top: 1px solid var(--bordure);
+  padding-top: 0.9rem;
+  margin-bottom: 1.1rem;
+}
+
+/* ===== Porte d'entrée : la fiche Google seule ===== */
+.porte-entree-bloc {
+  background-color: var(--blanc);
+  border: 1px dashed var(--olive);
+  border-radius: var(--rayon);
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.porte-entree-etiquette {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--olive);
+  margin-bottom: 0.4rem;
+}
+
+.porte-entree-texte h2 {
+  font-size: clamp(1.3rem, 3.5vw, 1.7rem);
+  margin-bottom: 0.75rem;
+}
+
+.porte-entree-liste {
+  list-style: none;
+  margin: 1.25rem 0;
+}
+
+.porte-entree-liste li {
+  padding-left: 1.5rem;
+  position: relative;
+  margin-bottom: 0.5rem;
+  font-size: 0.98rem;
+}
+
+.porte-entree-liste li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.85rem;
+  height: 0.35rem;
+  border-left: 2.5px solid var(--olive);
+  border-bottom: 2.5px solid var(--olive);
+  transform: rotate(-50deg);
+}
+
+.porte-entree-option {
+  background-color: var(--creme-fonce);
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  font-size: 0.95rem;
+  color: var(--charbon-doux);
+}
+
+.porte-entree-prix {
+  text-align: center;
+  border-top: 1px solid var(--bordure);
+  padding-top: 1.5rem;
+}
+
+.porte-entree-prix .carte-prix { margin-bottom: 1rem; }
+
+/* ===== Ce que contient l'abonnement ===== */
+.abonnement { background-color: var(--creme-fonce); }
+
+.abonnement-intro {
+  color: var(--charbon-doux);
+  margin-bottom: 1.75rem;
+}
+
+.abonnement-liste {
+  list-style: none;
+  margin-bottom: 1.5rem;
+}
+
+.abonnement-liste li {
+  background-color: var(--blanc);
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  padding: 1rem 1.1rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.98rem;
+  color: var(--charbon-doux);
+}
+
+.abonnement-liste strong { color: var(--charbon); }
+
+.abonnement-note {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--olive);
+}
+
+/* ===== Tableaux (comparatif et options) ===== */
+.comparatif-intro,
+.options-intro {
+  color: var(--charbon-doux);
+  margin-bottom: 1.75rem;
+}
+
+.tableau-defilant {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  background-color: var(--blanc);
+}
+
+.tableau-defilant:focus-visible {
+  outline: 3px solid var(--terracotta);
+  outline-offset: 2px;
+}
+
+.tableau {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  min-width: 34rem;
+}
+
+.tableau-options { min-width: 0; }
+
+.tableau thead th {
+  font-family: var(--titres);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--charbon);
+  background-color: var(--creme-fonce);
+  padding: 0.9rem 1rem;
+  text-align: center;
+  border-bottom: 2px solid var(--bordure);
+  white-space: nowrap;
+}
+
+.tableau thead th:first-child { text-align: left; }
+
+.tableau tbody th {
+  font-weight: 600;
+  text-align: left;
+  padding: 0.85rem 1rem;
+  color: var(--charbon);
+  border-bottom: 1px solid var(--bordure);
+  /* La colonne des prestations reste visible pendant le défilement */
+  position: sticky;
+  left: 0;
+  background-color: var(--blanc);
+  min-width: 14rem;
+  box-shadow: 1px 0 0 var(--bordure);
+}
+
+.tableau tbody td {
+  padding: 0.85rem 1rem;
+  text-align: center;
+  border-bottom: 1px solid var(--bordure);
+  color: var(--charbon-doux);
+  white-space: nowrap;
+}
+
+.tableau-options tbody td { text-align: right; font-weight: 700; color: var(--charbon); }
+.tableau-options tbody th { min-width: 0; box-shadow: none; position: static; }
+
+.tableau tbody tr:last-child th,
+.tableau tbody tr:last-child td { border-bottom: none; }
+
+.tableau tbody tr:nth-child(even) th,
+.tableau tbody tr:nth-child(even) td { background-color: #FDFCFA; }
+
+.th-note {
+  display: block;
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: var(--charbon-doux);
+}
+
+.oui { color: var(--olive); font-weight: 700; font-size: 1.15rem; }
+.non { color: #A8A296; font-weight: 700; }
+
+.tableau-astuce {
+  font-size: 0.9rem;
+  color: var(--charbon-doux);
+  margin-top: 0.75rem;
+  text-align: center;
+}
+
+/* ===== Ce qui n'est pas inclus ===== */
+.exclusions { background-color: var(--charbon); color: #D8D2C8; }
+
+.exclusions h2 { color: var(--creme); }
+
+.exclusions-intro { color: #D8D2C8; margin-bottom: 1.75rem; }
+
+.exclusions-liste { list-style: none; }
+
+.exclusions-liste li {
+  border-left: 3px solid var(--terracotta);
+  padding: 0.3rem 0 0.3rem 1.1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.98rem;
+}
+
+.exclusions-liste strong { color: var(--creme); }
+
+/* ===== FAQ en accordéon natif ===== */
+.faq-detail {
+  background-color: var(--blanc);
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+
+.faq-detail summary {
+  font-family: var(--titres);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--charbon);
+  padding: 1.1rem 3rem 1.1rem 1.25rem;
+  cursor: pointer;
+  position: relative;
+  line-height: 1.4;
+  list-style: none;
+  min-height: 44px;
+}
+
+.faq-detail summary::-webkit-details-marker { display: none; }
+
+.faq-detail summary::after {
+  content: "+";
+  position: absolute;
+  right: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  color: var(--terracotta);
+  font-family: var(--texte);
+  font-weight: 400;
+  transition: transform 0.25s ease;
+}
+
+.faq-detail[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+
+.faq-detail .faq-reponse { padding: 0 1.25rem 1.25rem; }
+
+/* ===== Appel à l'action final ===== */
+.cta-final {
+  background-color: var(--creme-fonce);
+  text-align: center;
+}
+
+.cta-final p { color: var(--charbon-doux); margin-bottom: 1.75rem; }
+
+.cta-final-micro {
+  margin-top: 1rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--olive);
+}
+
+/* ===== Appel à l'action collant (téléphone) ===== */
+.cta-collant {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 90;
+  background-color: rgba(250, 247, 242, 0.96);
+  backdrop-filter: blur(6px);
+  border-top: 1px solid var(--bordure);
+  padding: 0.7rem 1.25rem calc(0.7rem + env(safe-area-inset-bottom));
+}
+
+.cta-collant .btn { width: 100%; }
+
+/* Le footer ne doit pas passer sous l'appel à l'action collant */
+.cta-collant ~ .footer { padding-bottom: 6.5rem; }
+
+/* ===== Teaser tarifs sur la page d'accueil ===== */
+.carte-teaser-prix {
+  font-family: var(--titres);
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--terracotta);
+  line-height: 1.1;
+  margin-bottom: 0.2rem;
+}
+
+.carte-teaser-mensuel {
+  font-family: var(--texte);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--charbon-doux);
+  margin-bottom: 1rem;
+}
+
+.formules-lien {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.formules-lien .btn { width: 100%; max-width: 26rem; }
+
+/* ==========================================================
    Tablette et desktop
    ========================================================== */
 @media (min-width: 768px) {
   section { padding: 5rem 0; }
 
-  .nav { display: flex; gap: 1.75rem; }
-  .btn-header { display: inline-block; }
+  /* Entre 768 et 1023 px, la nav seule tient sur une ligne, mais pas avec le
+     bouton en plus : il n'apparaît qu'à partir de 1024 px (voir plus bas). */
+  .nav { display: flex; gap: 1.15rem; }
   .burger { display: none; }
 
   .hero { padding: 8rem 0 4rem; }
@@ -796,4 +1292,58 @@ textarea { resize: vertical; }
   form { padding: 2.5rem; }
 
   #bouton-envoyer { width: 100%; }
+
+  /* ===== Page tarifs ===== */
+  .bandeau-fondateur { margin-top: 4.6rem; }
+
+  .bandeau-inner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .bandeau-titre { margin-bottom: 0; flex-shrink: 0; }
+
+  .tarifs-intro { padding-top: 3rem; }
+  .bandeau-fondateur[hidden] + main .tarifs-intro { padding-top: 8rem; }
+
+  .btn-auto { width: auto; }
+
+  .porte-entree-bloc {
+    flex-direction: row;
+    align-items: center;
+    gap: 3rem;
+    padding: 2.25rem 2rem;
+  }
+
+  .porte-entree-texte { flex: 1; }
+
+  .porte-entree-prix {
+    flex: 0 0 15rem;
+    border-top: none;
+    border-left: 1px solid var(--bordure);
+    padding-top: 0;
+    padding-left: 2rem;
+  }
+
+  .porte-entree-prix .btn-carte { width: 100%; }
+
+  .tableau { min-width: 0; }
+  .tableau-astuce { display: none; }
+
+  .abonnement-liste { columns: 1; }
+
+  /* L'appel à l'action collant ne sert que sur téléphone */
+  .cta-collant { display: none; }
+  .cta-collant ~ .footer { padding-bottom: 2.5rem; }
+
+  .formules-lien .btn { width: auto; }
+}
+
+/* ==========================================================
+   Grand écran : le bouton du header retrouve sa place
+   ========================================================== */
+@media (min-width: 1024px) {
+  .nav { gap: 1.75rem; }
+  .btn-header { display: inline-block; }
 }
