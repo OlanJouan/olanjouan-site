@@ -840,6 +840,13 @@ textarea { resize: vertical; }
   margin: 0 auto 1.5rem;
 }
 
+.tarifs-zone {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--olive);
+  margin-bottom: 1.5rem;
+}
+
 .btn-auto { max-width: 26rem; }
 
 /* Quand le bandeau est fermé, l'intro doit dégager le header fixe */
