@@ -39,37 +39,6 @@
     });
   });
 
-  /* ===== Page tarifs : bascule avec / sans abonnement ===== */
-  var basculeZone = document.getElementById("bascule-zone");
-  var cartesTarifs = document.getElementById("cartes-tarifs");
-  var btnAbonnement = document.getElementById("btn-abonnement");
-  var btnSans = document.getElementById("btn-sans");
-
-  if (basculeZone && cartesTarifs && btnAbonnement && btnSans) {
-    // La bascule n'apparaît que si le JS tourne : sans lui, les prix « avec
-    // abonnement » écrits en dur dans le HTML restent affichés.
-    basculeZone.hidden = false;
-
-    var basculer = function (mode) {
-      cartesTarifs.setAttribute("data-mode", mode);
-      btnAbonnement.setAttribute("aria-pressed", mode === "abonnement" ? "true" : "false");
-      btnSans.setAttribute("aria-pressed", mode === "sans" ? "true" : "false");
-    };
-
-    btnAbonnement.addEventListener("click", function () { basculer("abonnement"); });
-    btnSans.addEventListener("click", function () { basculer("sans"); });
-  }
-
-  /* ===== Page tarifs : bandeau tarif fondateur ===== */
-  var bandeau = document.getElementById("bandeau-fondateur");
-  var bandeauFermer = document.getElementById("bandeau-fermer");
-
-  if (bandeau && bandeauFermer) {
-    bandeauFermer.addEventListener("click", function () {
-      bandeau.hidden = true;
-    });
-  }
-
   /* ===== Boutons de formule : scroll + pré-remplissage ===== */
   var champFormule = document.getElementById("champ-formule");
   var encart = document.getElementById("formule-choisie");

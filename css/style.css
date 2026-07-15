@@ -1001,7 +1001,14 @@ textarea { resize: vertical; }
   color: var(--olive);
   border-top: 1px solid var(--bordure);
   padding-top: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.carte-entretien {
+  font-size: 0.88rem;
+  color: var(--charbon-doux);
   margin-bottom: 1.1rem;
+  line-height: 1.4;
 }
 
 /* ===== Porte d'entrée : la fiche Google seule ===== */
