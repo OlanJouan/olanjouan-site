@@ -229,4 +229,50 @@
       observateur.observe(element);
     });
   }
+
+  /* ===== Hero : la maquette suit légèrement la souris (desktop uniquement) ===== */
+  (function () {
+    var hero = document.querySelector(".hero");
+    if (!hero) return;
+
+    var portable = hero.querySelector(".maquette-portable");
+    var texte = hero.querySelector(".hero-texte");
+    if (!portable) return;
+
+    // Rien sur mobile, sur écran tactile, ni si l'utilisateur limite les animations.
+    var reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var sansSurvol = window.matchMedia("(hover: none)").matches;
+    if (reduit || sansSurvol || window.innerWidth < 900) return;
+
+    var frame = null;
+    var x = 0;
+    var y = 0;
+
+    function appliquer() {
+      frame = null;
+      portable.style.transform =
+        "perspective(1300px) rotateY(" + (x * 8) + "deg) rotateX(" +
+        (-y * 5) + "deg) translateX(" + (x * 9) + "px)";
+      if (texte) texte.style.transform = "translateX(" + (x * -5) + "px)";
+    }
+
+    hero.addEventListener("mousemove", function (evenement) {
+      var rect = hero.getBoundingClientRect();
+      x = ((evenement.clientX - rect.left) / rect.width) * 2 - 1;
+      y = ((evenement.clientY - rect.top) / rect.height) * 2 - 1;
+      if (x < -1) x = -1; else if (x > 1) x = 1;
+      if (y < -1) y = -1; else if (y > 1) y = 1;
+      // Une seule frame en attente au maximum.
+      if (frame === null) frame = window.requestAnimationFrame(appliquer);
+    });
+
+    hero.addEventListener("mouseleave", function () {
+      if (frame !== null) {
+        window.cancelAnimationFrame(frame);
+        frame = null;
+      }
+      portable.style.transform = "";
+      if (texte) texte.style.transform = "";
+    });
+  })();
 })();

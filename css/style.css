@@ -230,7 +230,7 @@ section { padding: 3.5rem 0; }
 
 .nav.ouvert a { padding: 0.7rem 0; font-size: 1.05rem; }
 
-/* ===== Hero (photo plein écran) ===== */
+/* ===== Hero (dégradé CSS + maquette d'ordinateur portable) ===== */
 .hero {
   position: relative;
   min-height: 100svh;
@@ -240,59 +240,68 @@ section { padding: 3.5rem 0; }
   text-align: left;
   color: var(--blanc);
   overflow: hidden;
+  isolation: isolate;
 }
 
-.hero-bg {
+/* Couche 1 : le fond en dégradé (mobile : 150deg pour rester lisible) */
+.hero-fond {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background:
-    radial-gradient(at 15% 22%, hsla(258, 85%, 60%, 0.85) 0px, transparent 55%),
-    radial-gradient(at 82% 12%, hsla(190, 92%, 52%, 0.75) 0px, transparent 50%),
-    radial-gradient(at 8% 82%, hsla(285, 88%, 58%, 0.75) 0px, transparent 52%),
-    radial-gradient(at 88% 88%, hsla(212, 96%, 48%, 0.85) 0px, transparent 55%),
-    linear-gradient(135deg, #0a0a2e 0%, #16213e 48%, #0f3460 100%);
-  background-size: 180% 180%;
-  animation: hero-aurore 24s ease-in-out infinite;
+  background: linear-gradient(
+    150deg,
+    #14110d 0%,
+    #201b14 20%,
+    #8a3f22 39%,
+    #c4572e 48%,
+    #cabbab 74%,
+    #f5f3f0 100%
+  );
 }
 
-/* Fine grille "tech" par-dessus le dégradé */
-.hero-bg::after {
-  content: "";
+/* Couche 2 : deux halos colorés qui dérivent très lentement */
+.hero-halo {
   position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: 44px 44px;
-  mask-image: radial-gradient(ellipse 80% 70% at 60% 40%, #000 40%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 60% 40%, #000 40%, transparent 100%);
-}
-
-@keyframes hero-aurore {
-  0%   { background-position: 0% 0%; }
-  50%  { background-position: 100% 100%; }
-  100% { background-position: 0% 0%; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-bg { animation: none; }
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
+  inset: -12%;
   z-index: 1;
-  background: linear-gradient(90deg, rgba(6, 8, 30, 0.72) 0%, rgba(6, 8, 30, 0.45) 45%, rgba(6, 8, 30, 0.15) 100%);
+  pointer-events: none;
+  background:
+    radial-gradient(36rem 36rem at 14% 32%, rgba(196, 87, 46, 0.32), transparent 60%),
+    radial-gradient(40rem 40rem at 40% 76%, rgba(107, 107, 74, 0.26), transparent 62%);
+  animation: hero-derive 20s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
-.hero-contenu { position: relative; z-index: 2; }
+@keyframes hero-derive {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(3%, 3%, 0) scale(1.09); }
+}
+
+/* Couche 3 : grain papier (même bruit que le body), très discret */
+.hero-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.6;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.17 0 0 0 0 0.16 0 0 0 0 0.14 0 0 0 0.025 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+.hero-contenu {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: center;
+  width: 100%;
+}
 
 .hero h1 { margin-bottom: 1.25rem; color: var(--blanc); }
 
 .hero-sous-titre {
   font-size: 1.15rem;
-  color: #EDE7DD;
+  color: #F0EAE0;
   max-width: 38rem;
   margin-bottom: 2rem;
 }
@@ -302,8 +311,94 @@ section { padding: 3.5rem 0; }
 .hero-micro {
   margin-top: 0.75rem;
   font-size: 0.92rem;
-  color: #EDE7DD;
+  color: #F0EAE0;
   font-weight: 600;
+}
+
+/* ===== La maquette d'ordinateur portable (décorative) ===== */
+.hero-maquette {
+  width: 100%;
+  max-width: 22rem;
+  margin: 0 auto;
+}
+
+.maquette-portable {
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: transform;
+}
+
+/* Le capot / l'écran */
+.maquette-ecran {
+  position: relative;
+  background: #1B1917;
+  border-radius: 12px;
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 30px 50px -18px rgba(26, 18, 12, 0.55);
+}
+
+.maquette-viewport {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 5px;
+  background: #0f1115; /* reste propre si l'image ne charge pas */
+}
+
+.maquette-capture {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  display: block;
+  animation: maquette-defile 26s ease-in-out infinite;
+}
+
+/* Reflet vitré par-dessus l'écran */
+.maquette-reflet {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(112deg, rgba(255, 255, 255, 0.20), transparent 38%);
+}
+
+/* La barre / le socle sous le capot */
+.maquette-socle {
+  position: relative;
+  width: 112%;
+  margin-left: -6%;
+  height: 10px;
+  background: linear-gradient(180deg, #dcdce0 0%, #b8b8bf 46%, #909097 56%, #6d6d75 100%);
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 8px 14px -6px rgba(26, 18, 12, 0.45);
+}
+
+.maquette-socle::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16%;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.22);
+  border-radius: 0 0 6px 6px;
+}
+
+/* Défilement lent de la capture (transform uniquement, jamais de scroll natif).
+   Image 1400×4200 dans un viewport 16/10 : le bas est atteint à -79 %. */
+@keyframes maquette-defile {
+  0%, 7%   { transform: translateY(0); }
+  52%, 64% { transform: translateY(-79%); }
+  100%     { transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-halo { animation: none; }
+  .maquette-portable { transition: none; }
+  .maquette-capture { animation: none; top: 0; }
 }
 
 /* ===== Le problème ===== */
@@ -1411,6 +1506,32 @@ textarea { resize: vertical; }
   .cta-collant ~ .footer { padding-bottom: 2.5rem; }
 
   .formules-lien .btn { width: auto; }
+}
+
+/* ==========================================================
+   Hero en deux colonnes : texte à gauche (partie sombre),
+   maquette à droite (partie claire). Dégradé en 102deg.
+   ========================================================== */
+@media (min-width: 900px) {
+  .hero-fond {
+    background: linear-gradient(
+      102deg,
+      #14110d 0%,
+      #201b14 20%,
+      #8a3f22 39%,
+      #c4572e 48%,
+      #cabbab 74%,
+      #f5f3f0 100%
+    );
+  }
+
+  .hero-contenu {
+    grid-template-columns: 44% 56%;
+    gap: 3rem;
+  }
+
+  .hero-texte { max-width: 34rem; }
+  .hero-maquette { max-width: none; }
 }
 
 /* ==========================================================
