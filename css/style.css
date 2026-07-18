@@ -315,34 +315,53 @@ section { padding: 3.5rem 0; }
   font-weight: 600;
 }
 
-/* ===== La maquette d'ordinateur portable (décorative) ===== */
+/* ===== La maquette : iMac tout-en-un (décoratif) ===== */
 .hero-maquette {
   width: 100%;
-  max-width: 22rem;
+  max-width: 24rem;
   margin: 0 auto;
 }
 
-.maquette-portable {
+.maquette-imac {
   transform-style: preserve-3d;
   transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
   will-change: transform;
 }
 
-/* Le capot / l'écran */
+/* Le corps de l'écran : façade en verre noir + menton en aluminium */
 .maquette-ecran {
   position: relative;
-  background: #1B1917;
-  border-radius: 12px;
-  padding: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 30px 50px -18px rgba(26, 18, 12, 0.55);
+  padding: 2.6%;
+  padding-bottom: 0;
+  background: #0a0a0c;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow:
+    0 40px 70px -26px rgba(26, 18, 12, 0.6),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+/* La petite caméra centrée dans la bordure haute */
+.maquette-ecran::before {
+  content: "";
+  position: absolute;
+  top: 1%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #33454f, #0d1418);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
+  z-index: 3;
 }
 
 .maquette-viewport {
   position: relative;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-  border-radius: 5px;
+  border-radius: 3px;
   background: #0f1115; /* reste propre si l'image ne charge pas */
 }
 
@@ -361,43 +380,61 @@ section { padding: 3.5rem 0; }
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(112deg, rgba(255, 255, 255, 0.20), transparent 38%);
+  background: linear-gradient(112deg, rgba(255, 255, 255, 0.18), transparent 42%);
 }
 
-/* La barre / le socle sous le capot */
-.maquette-socle {
+/* Le menton en aluminium sous l'écran (bord à bord) */
+.maquette-menton {
+  margin: 2.6% -2.6% 0;
+  aspect-ratio: 16 / 1.5;
+  background: linear-gradient(180deg, #f0f0f2 0%, #dcdce0 55%, #c6c6cc 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* Le pied : la colonne en aluminium... */
+.maquette-cou {
+  width: 26%;
+  aspect-ratio: 26 / 8;
+  margin: 0 auto;
+  background: linear-gradient(90deg, #b6b6bc 0%, #e9e9ec 28%, #d4d4d9 60%, #aeaeb4 100%);
+  clip-path: polygon(16% 0, 84% 0, 96% 100%, 4% 100%);
+}
+
+/* ...et la base posée au sol */
+.maquette-pied {
   position: relative;
-  width: 112%;
-  margin-left: -6%;
-  height: 10px;
-  background: linear-gradient(180deg, #dcdce0 0%, #b8b8bf 46%, #909097 56%, #6d6d75 100%);
-  border-radius: 0 0 10px 10px;
-  box-shadow: 0 8px 14px -6px rgba(26, 18, 12, 0.45);
+  width: 44%;
+  aspect-ratio: 44 / 4.5;
+  margin: 0 auto;
+  background: linear-gradient(180deg, #e6e6ea 0%, #c8c8ce 45%, #a9a9b0 100%);
+  border-radius: 40% / 55%;
+  box-shadow: 0 16px 20px -10px rgba(26, 18, 12, 0.45);
 }
 
-.maquette-socle::after {
+/* Ombre de contact au sol */
+.maquette-pied::after {
   content: "";
   position: absolute;
-  top: 0;
   left: 50%;
+  bottom: -10%;
   transform: translateX(-50%);
-  width: 16%;
-  height: 4px;
-  background: rgba(0, 0, 0, 0.22);
-  border-radius: 0 0 6px 6px;
+  width: 120%;
+  height: 60%;
+  background: radial-gradient(ellipse at center, rgba(26, 18, 12, 0.28), transparent 70%);
+  z-index: -1;
 }
 
 /* Défilement lent de la capture (transform uniquement, jamais de scroll natif).
-   Image 1400×8501 dans un viewport 16/10 : le bas est atteint à ~-89 %. */
+   Image 1400×8501 dans un viewport 16/9 : le bas est atteint à ~-90 %. */
 @keyframes maquette-defile {
   0%, 7%   { transform: translateY(0); }
-  52%, 64% { transform: translateY(-89%); }
+  52%, 64% { transform: translateY(-90%); }
   100%     { transform: translateY(0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-halo { animation: none; }
-  .maquette-portable { transition: none; }
+  .maquette-imac { transition: none; }
   .maquette-capture { animation: none; top: 0; }
 }
 

@@ -235,7 +235,7 @@
     var hero = document.querySelector(".hero");
     if (!hero) return;
 
-    var portable = hero.querySelector(".maquette-portable");
+    var portable = hero.querySelector(".maquette-imac");
     var texte = hero.querySelector(".hero-texte");
     if (!portable) return;
 
