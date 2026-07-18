@@ -388,10 +388,10 @@ section { padding: 3.5rem 0; }
 }
 
 /* Défilement lent de la capture (transform uniquement, jamais de scroll natif).
-   Image 1400×4200 dans un viewport 16/10 : le bas est atteint à -79 %. */
+   Image 1400×8501 dans un viewport 16/10 : le bas est atteint à ~-89 %. */
 @keyframes maquette-defile {
   0%, 7%   { transform: translateY(0); }
-  52%, 64% { transform: translateY(-79%); }
+  52%, 64% { transform: translateY(-89%); }
   100%     { transform: translateY(0); }
 }
 
