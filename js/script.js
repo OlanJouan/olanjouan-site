@@ -123,13 +123,13 @@
       cacherErreur();
 
       var nom = document.getElementById("nom");
-      var metier = document.getElementById("metier");
+      var activite = document.getElementById("activite");
       var telephone = document.getElementById("telephone");
       var email = document.getElementById("email");
       var message = document.getElementById("message");
 
       // Nettoyage visuel
-      [nom, metier, telephone, email, message].forEach(function (champ) {
+      [nom, activite, telephone, email, message].forEach(function (champ) {
         if (champ) champ.classList.remove("champ-invalide");
       });
 
@@ -141,10 +141,10 @@
         return;
       }
 
-      if (!metier.value.trim()) {
-        metier.classList.add("champ-invalide");
-        afficherErreur("Indiquez votre métier, pour que je sache à qui je parle.");
-        metier.focus();
+      if (!activite.value.trim()) {
+        activite.classList.add("champ-invalide");
+        afficherErreur("Indiquez votre activité, pour que je sache à qui je parle.");
+        activite.focus();
         return;
       }
 
