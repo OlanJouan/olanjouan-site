@@ -1,4 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="12" fill="#C4572E"/>
-  <text x="32" y="44" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#FAF7F2" text-anchor="middle">OJ</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Olan Jouan">
+  <rect width="64" height="64" rx="14" fill="#C4572E"/>
+  <g transform="translate(3.1,4.6) scale(0.76)" fill="none" stroke="#FAF7F2" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="30" cy="36" r="24"/>
+    <path d="M70 12 V42 C70 52 61 56 53 50"/>
+  </g>
 </svg>
