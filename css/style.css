@@ -1713,14 +1713,6 @@ textarea { resize: vertical; }
 @media (min-width: 768px) {
   section { padding: 5rem 0; }
 
-  /* Entre 768 et 1023 px, la nav seule tient sur une ligne, mais pas avec le
-     bouton en plus : il n'apparaît qu'à partir de 1024 px (voir plus bas).
-     La nav est poussée à droite pour dégager de l'air entre le logo et le
-     premier lien (sinon « Pour qui » colle au nom « Olan Jouan »). */
-  .nav { display: flex; gap: 1.15rem; margin-left: auto; }
-  .header-tel { margin-left: 1.5rem; }
-  .burger { display: none; }
-
   .hero { padding: 8rem 0 4rem; }
   .hero-texte { max-width: 40rem; }
   .hero-actions { display: flex; flex-direction: column; }
@@ -1838,8 +1830,33 @@ textarea { resize: vertical; }
 /* ==========================================================
    Grand écran : le bouton du header retrouve sa place
    ========================================================== */
+/* La barre horizontale (logo + menu en pastilles + téléphone) n'apparaît que
+   lorsqu'elle tient vraiment ; en dessous de 960 px, c'est le menu burger.
+   Menu à droite, chaque lien prend un fond arrondi terracotta au survol. */
+@media (min-width: 960px) {
+  .nav { display: flex; margin-left: auto; gap: 0.3rem; align-items: center; }
+  .nav a {
+    padding: 0.5rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.94rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .nav a:hover { background-color: rgba(196, 87, 46, 0.12); color: var(--terracotta-fonce); }
+  .burger { display: none; }
+  /* Fin trait vertical qui sépare le menu du téléphone + bouton */
+  .header-tel {
+    margin-left: 1.25rem;
+    padding-left: 1.25rem;
+    border-left: 1px solid var(--bordure);
+  }
+}
+
 @media (min-width: 1024px) {
-  .nav { gap: 1.75rem; }
-  .btn-header { display: inline-block; }
   .pour-qui-grille { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Le bouton d'action n'apparaît qu'à partir de 1088 px, là où la barre atteint
+   sa largeur maximale et peut l'accueillir sans rien serrer. */
+@media (min-width: 1088px) {
+  .btn-header { display: inline-block; margin-left: 0.4rem; }
 }
