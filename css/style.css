@@ -1666,8 +1666,11 @@ textarea { resize: vertical; }
   section { padding: 5rem 0; }
 
   /* Entre 768 et 1023 px, la nav seule tient sur une ligne, mais pas avec le
-     bouton en plus : il n'apparaît qu'à partir de 1024 px (voir plus bas). */
-  .nav { display: flex; gap: 1.15rem; }
+     bouton en plus : il n'apparaît qu'à partir de 1024 px (voir plus bas).
+     La nav est poussée à droite pour dégager de l'air entre le logo et le
+     premier lien (sinon « Pour qui » colle au nom « Olan Jouan »). */
+  .nav { display: flex; gap: 1.15rem; margin-left: auto; }
+  .header-tel { margin-left: 1.5rem; }
   .burger { display: none; }
 
   .hero { padding: 8rem 0 4rem; }
