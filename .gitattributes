@@ -1,0 +1,13 @@
+# Uniformise les fins de ligne : LF dans le depot, quel que soit le systeme.
+# Evite les faux changements apres la migration Windows -> Mac.
+* text=auto eol=lf
+
+# Fichiers binaires : ne jamais toucher aux fins de ligne.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
