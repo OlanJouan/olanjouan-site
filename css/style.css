@@ -104,7 +104,9 @@ section { padding: 3.5rem 0; }
   border-radius: var(--rayon);
   padding: 0.85rem 1.6rem;
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+              transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
   min-height: 44px;
 }
 
@@ -311,20 +313,24 @@ section { padding: 3.5rem 0; }
   isolation: isolate;
 }
 
-/* Couche 1 : le fond en dégradé (mobile : 150deg pour rester lisible) */
+/* Couche 1 : le fond en dégradé (mobile : 150deg pour rester lisible),
+   surmonté du halo terracotta en haut à droite repris de l'affiche promo.
+   Le radial est déclaré en premier : il passe donc au-dessus du dégradé. */
 .hero-fond {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: linear-gradient(
-    150deg,
-    #14110d 0%,
-    #201b14 20%,
-    #8a3f22 39%,
-    #c4572e 48%,
-    #cabbab 74%,
-    #f5f3f0 100%
-  );
+  background:
+    radial-gradient(circle at 88% -10%, rgba(196, 87, 46, 0.35), transparent 55%),
+    linear-gradient(
+      150deg,
+      #14110d 0%,
+      #201b14 20%,
+      #8a3f22 39%,
+      #c4572e 48%,
+      #cabbab 74%,
+      #f5f3f0 100%
+    );
 }
 
 /* Couche 2 : deux halos colorés qui dérivent très lentement */
@@ -343,6 +349,43 @@ section { padding: 3.5rem 0; }
 @keyframes hero-derive {
   from { transform: translate3d(0, 0, 0) scale(1); }
   to   { transform: translate3d(3%, 3%, 0) scale(1.09); }
+}
+
+/* Couche 2 bis : rayons de lumière qui balaient lentement le dégradé.
+   Purement décoratif (aria-hidden dans le HTML). Placé sous le grain
+   pour que la texture papier passe par-dessus et intègre les rayons.
+   On n'anime que transform et opacity : aucun recalcul de mise en page. */
+.hero-rayons {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-rayons span {
+  position: absolute;
+  top: -60%;
+  left: 0;
+  height: 220%;
+  background: linear-gradient(to bottom, transparent, rgba(196, 87, 46, 0.28), transparent);
+  filter: blur(14px);
+  opacity: 0;
+  transform: rotate(22deg) translateX(-30vw);
+  will-change: transform;
+  animation: hero-rayon 9s linear infinite;
+}
+
+/* Largeurs, opacités et départs différents : sinon l'effet fait mécanique. */
+.hero-rayons span:nth-child(1) { width: 60px; --intensite: 0.55; animation-delay: 0s; }
+.hero-rayons span:nth-child(2) { width: 30px; --intensite: 0.38; animation-delay: 3s; }
+.hero-rayons span:nth-child(3) { width: 90px; --intensite: 0.3;  animation-delay: 6s; }
+
+@keyframes hero-rayon {
+  0%   { transform: rotate(22deg) translateX(-30vw); opacity: 0; }
+  15%  { opacity: var(--intensite); }
+  85%  { opacity: var(--intensite); }
+  100% { transform: rotate(22deg) translateX(130vw); opacity: 0; }
 }
 
 /* Couche 3 : grain papier (même bruit que le body), très discret */
@@ -536,20 +579,72 @@ section { padding: 3.5rem 0; }
   .hero-halo { animation: none; }
   .maquette-imac { transition: none; }
   .maquette-capture { animation: none; top: 0; }
+  /* Rayons figés en milieu de course, pour garder l'effet de lumière sans mouvement. */
+  .hero-rayons span {
+    animation: none;
+    opacity: var(--intensite);
+    transform: rotate(22deg) translateX(45vw);
+  }
 }
 
-/* ===== Le problème ===== */
+/* ===== Le problème =====
+   Section claire, dans le beige du site (même famille que « Formules » et la FAQ,
+   qui utilisent aussi --creme-fonce). Un dégradé très doux et un voile terracotta
+   dilué lui donnent du relief sans la sortir de la charte.
+   Tout est en CSS : aucune image, aucun octet de réseau en plus. */
 .probleme {
-  background-color: var(--charbon);
-  color: var(--creme);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: var(--creme-fonce); /* repli si les dégradés ne passent pas */
+  background-image: linear-gradient(163deg,
+      #F7F2EA 0%,
+      #F1EBE1 45%,
+      #EBE1D3 100%);
+  color: var(--charbon);
 }
 
-.probleme h2 { color: var(--creme); margin-bottom: 1.5rem; }
+/* Voile de couleur très dilué : réchauffe le beige sans le teinter franchement. */
+.probleme::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(38rem 30rem at 12% 16%, rgba(196, 87, 46, 0.09), transparent 62%),
+    radial-gradient(34rem 28rem at 88% 84%, rgba(107, 107, 74, 0.07), transparent 65%);
+}
 
-.probleme p { color: #D8D2C8; font-size: 1.1rem; }
+.probleme h2 { color: var(--charbon); margin-bottom: 1.5rem; }
+
+/* Filet terracotta sous le titre : ponctue sans alourdir. */
+.probleme h2::after {
+  content: "";
+  display: block;
+  width: 4.5rem;
+  height: 3px;
+  margin-top: 1.15rem;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--terracotta), rgba(196, 87, 46, 0));
+}
+
+.probleme p { color: var(--charbon-doux); font-size: 1.1rem; }
+
+/* La phrase qui porte tout l'argument : sortie du bloc de texte.
+   Sélecteur en deux classes pour passer devant « .probleme p ». */
+.probleme .probleme-cle {
+  margin: 2.25rem 0;
+  padding: 0.1rem 0 0.1rem 1.35rem;
+  border-left: 3px solid var(--terracotta);
+  font-size: 1.3rem;
+  line-height: 1.55;
+  font-weight: 600;
+  color: var(--charbon);
+}
 
 .probleme p:last-child {
-  color: var(--creme);
+  color: var(--charbon);
   font-weight: 600;
 }
 
@@ -573,11 +668,15 @@ section { padding: 3.5rem 0; }
   border-radius: var(--rayon);
   box-shadow: var(--ombre);
   padding: 1.5rem 1.4rem;
+  /* Contient l'agrandissement de l'icône au survol. */
+  overflow: hidden;
 }
 
 .icone-secteur {
   color: var(--terracotta);
   margin-bottom: 0.85rem;
+  transform-origin: left center;
+  transition: transform 0.5s ease;
 }
 
 .pour-qui-carte h3 {
@@ -749,6 +848,13 @@ section { padding: 3.5rem 0; }
   box-shadow: var(--ombre);
   display: flex;
   flex-direction: column;
+  /* Décalage de base de la carte. Vaut 0 partout, sauf pour la carte mise en
+     avant qui est surélevée en desktop. Le survol s'ajoute à cette valeur
+     au lieu de l'écraser : sans ça, la carte en avant redescendrait d'un coup. */
+  --lift: 0px;
+  transform: translateY(var(--lift));
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .carte-star {
@@ -1128,8 +1234,9 @@ textarea { resize: vertical; }
 /* ===== Animations douces au scroll ===== */
 .apparait {
   opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(22px);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+              transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .apparait.visible {
@@ -1137,10 +1244,42 @@ textarea { resize: vertical; }
   transform: none;
 }
 
+/* ===== Survols =====
+   Regroupés sous (hover: hover) : sur écran tactile, un :hover reste « collé »
+   après un appui, ce qui donne l'impression d'un bouton bloqué.
+
+   ⚠️ Ce bloc doit rester APRÈS « .apparait.visible ». Une carte animée au scroll
+   porte les deux classes, et « .apparait.visible { transform: none } » a la même
+   spécificité que « .carte:hover » : si le survol était déclaré avant, la carte
+   changerait d'ombre et de bordure mais ne se soulèverait jamais. */
+@media (hover: hover) {
+  .btn:hover { box-shadow: 0 6px 18px rgba(196, 87, 46, 0.28); }
+  .btn:active { transform: translateY(0) scale(0.98); }
+
+  /* Le second sélecteur n'est pas un doublon : une carte déjà apparue porte
+     « apparait visible », et « .apparait.visible { transform: none } » a la même
+     spécificité que « .carte:hover ». Ce sélecteur plus précis garantit que le
+     soulèvement gagne, même si l'ordre des blocs change un jour. */
+  .carte:hover,
+  .carte.visible:hover {
+    transform: translateY(calc(var(--lift) - 4px));
+    box-shadow: var(--ombre-haute);
+    border-color: var(--terracotta);
+  }
+
+  .pour-qui-carte:hover .icone-secteur { transform: scale(1.05); }
+
+  .faq-question:hover { background-color: var(--creme-fonce); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .apparait { opacity: 1; transform: none; transition: none; }
   * { transition-duration: 0.01ms !important; }
+  /* Survols : on garde les changements de couleur et d'ombre, on retire les déplacements. */
+  .btn:hover, .btn:active { transform: none; }
+  .carte:hover { transform: translateY(var(--lift)); }
+  .pour-qui-carte:hover .icone-secteur { transform: none; }
 }
 
 /* ===== Pages annexes (merci, mentions légales) ===== */
@@ -1736,7 +1875,7 @@ textarea { resize: vertical; }
     align-items: stretch;
   }
 
-  .carte-star { transform: translateY(-0.75rem); }
+  .carte-star { --lift: -0.75rem; }
 
   .suivi {
     flex-direction: row;
@@ -1806,16 +1945,20 @@ textarea { resize: vertical; }
    maquette à droite (partie claire). Dégradé en 102deg.
    ========================================================== */
 @media (min-width: 900px) {
+  /* Cette règle réécrit tout le raccourci « background » : le halo terracotta
+     doit donc être répété ici, sinon il disparaîtrait à partir de 900 px. */
   .hero-fond {
-    background: linear-gradient(
-      102deg,
-      #14110d 0%,
-      #201b14 20%,
-      #8a3f22 39%,
-      #c4572e 48%,
-      #cabbab 74%,
-      #f5f3f0 100%
-    );
+    background:
+      radial-gradient(circle at 88% -10%, rgba(196, 87, 46, 0.35), transparent 55%),
+      linear-gradient(
+        102deg,
+        #14110d 0%,
+        #201b14 20%,
+        #8a3f22 39%,
+        #c4572e 48%,
+        #cabbab 74%,
+        #f5f3f0 100%
+      );
   }
 
   .hero-contenu {

@@ -208,8 +208,16 @@
     });
   }
 
-  /* ===== Apparition douce au scroll ===== */
-  var elements = document.querySelectorAll("section > .conteneur > *, .carte, .etapes-liste li, .faq-item");
+  /* ===== Apparition douce au scroll =====
+     Le hero est exclu : son conteneur porte aussi la classe « conteneur », donc
+     l'ancien sélecteur masquait le titre principal au chargement. Or c'est le plus
+     gros élément visible d'entrée : le démarrer à opacity 0 le faisait clignoter
+     et retardait le LCP. Il doit s'afficher immédiatement, sans animation.
+     Si IntersectionObserver manque, la classe « apparait » n'est jamais posée :
+     tout reste visible plutôt que bloqué à opacity 0. */
+  var elements = document.querySelectorAll(
+    "section:not(.hero) > .conteneur > *, .carte, .etapes-liste li, .faq-item"
+  );
 
   if ("IntersectionObserver" in window) {
     var observateur = new IntersectionObserver(
@@ -224,7 +232,26 @@
       { threshold: 0.08 }
     );
 
+    // Décalage en cascade : les éléments voisins (cartes, étapes, questions)
+    // apparaissent l'un après l'autre. Le compteur est propre à chaque parent,
+    // et plafonné pour que le dernier d'une longue liste n'attende pas trop.
+    var parents = [];
+    var rangs = [];
+
     elements.forEach(function (element) {
+      var parent = element.parentElement;
+      var i = parents.indexOf(parent);
+
+      if (i === -1) {
+        parents.push(parent);
+        rangs.push(0);
+        i = parents.length - 1;
+      }
+
+      var delai = rangs[i]++ * 80;
+      if (delai > 400) delai = 400;
+      if (delai > 0) element.style.transitionDelay = delai + "ms";
+
       element.classList.add("apparait");
       observateur.observe(element);
     });
