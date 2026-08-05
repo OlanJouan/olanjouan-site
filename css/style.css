@@ -587,6 +587,221 @@ section { padding: 3.5rem 0; }
   }
 }
 
+/* ===== Simulateur Google : comparateur avant / après =====
+   Widget à glisser, entièrement en HTML/CSS (aucune image) : deux fausses
+   fiches Google superposées, celle du dessus découpée par un curseur que
+   l'on fait glisser. C'est une démonstration, pas une donnée réelle : le nom
+   du commerce et les avis sont inventés, l'étiquette « Exemple illustratif »
+   le rappelle dans le texte. */
+.simulateur { position: relative; }
+
+.simulateur-etiquette {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--olive);
+  background-color: var(--creme-fonce);
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  margin-bottom: 0.9rem;
+}
+
+.simulateur-texte { color: var(--charbon-doux); font-size: 1.08rem; }
+
+.simulateur-scene { margin-top: 2rem; }
+
+.simulateur-barre-recherche {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background-color: var(--blanc);
+  border: 1px solid var(--bordure);
+  border-radius: 999px;
+  padding: 0.6rem 1.1rem;
+  box-shadow: var(--ombre);
+  font-size: 0.92rem;
+  color: var(--charbon-doux);
+  margin-bottom: 1.1rem;
+}
+
+.simulateur-loupe { color: var(--charbon-doux); flex-shrink: 0; }
+
+/* La scène : deux fiches superposées de la même taille, l'une masquant l'autre */
+.simulateur-compare {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 12rem;
+  border-radius: var(--rayon);
+  border: 1px solid var(--bordure);
+  box-shadow: var(--ombre-haute);
+  cursor: ew-resize;
+  touch-action: none;
+  user-select: none;
+  background-color: var(--creme-fonce);
+}
+
+.simulateur-panneau {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.simulateur-apres {
+  z-index: 1;
+  background-image: linear-gradient(160deg, var(--blanc) 0%, var(--creme-fonce) 100%);
+}
+
+/* Découpée depuis la droite : ne laisse voir que sa partie gauche, sur
+   var(--pos) % de la largeur. Le JS ne fait que changer cette variable. */
+.simulateur-avant {
+  z-index: 2;
+  background-image: repeating-linear-gradient(135deg,
+      #EFE9DD, #EFE9DD 10px, #E5DDD0 10px, #E5DDD0 20px);
+  /* Position de repos : la fiche « après » reste lisible en entier tant que
+     personne n'a touché au curseur ; glisser vers la droite révèle l'avant. */
+  clip-path: inset(0 calc(100% - var(--pos, 30%)) 0 0);
+  will-change: clip-path;
+}
+
+.simulateur-curseur {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--pos, 50%);
+  width: 2.75rem;
+  margin-left: -1.375rem;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: ew-resize;
+}
+
+.simulateur-curseur::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  background-color: var(--blanc);
+  box-shadow: 0 0 0 1px rgba(43, 40, 35, 0.15), var(--ombre);
+}
+
+.simulateur-poignee {
+  position: relative;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background-color: var(--terracotta);
+  color: var(--blanc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  border: 3px solid var(--blanc);
+  box-shadow: var(--ombre-haute);
+  transition: transform 0.2s ease;
+}
+
+.simulateur-etiquettes {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--charbon-doux);
+}
+
+.simulateur-etiquette-apres { color: var(--olive); }
+
+/* ----- Les deux fausses fiches Google ----- */
+.fiche-google {
+  width: min(23rem, 100%);
+  background-color: var(--blanc);
+  border-radius: 12px;
+  box-shadow: var(--ombre-haute);
+  padding: 1.1rem 1.2rem;
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.fiche-corps { flex: 1; min-width: 0; }
+
+.fiche-photo {
+  flex-shrink: 0;
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 10px;
+  background-image: linear-gradient(155deg, var(--terracotta), var(--olive));
+}
+
+.fiche-photo-vide {
+  background-image: repeating-linear-gradient(135deg,
+      var(--creme-fonce), var(--creme-fonce) 6px, var(--bordure) 6px, var(--bordure) 12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--charbon-doux);
+  font-weight: 700;
+}
+
+.fiche-nom {
+  font-family: var(--titres);
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--charbon);
+  margin-bottom: 0.2rem;
+}
+
+.fiche-nom-flou { color: var(--charbon-doux); font-weight: 700; font-style: italic; }
+
+.fiche-note {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--charbon-doux);
+  margin-bottom: 0.2rem;
+}
+
+.fiche-etoiles { color: #E8A93C; letter-spacing: 1px; font-size: 0.8rem; }
+
+.fiche-horaires {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--olive);
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.fiche-point { width: 7px; height: 7px; border-radius: 50%; background-color: var(--olive); flex-shrink: 0; }
+
+.fiche-alerte { font-size: 0.85rem; color: var(--terracotta-fonce); font-weight: 700; margin-bottom: 0; }
+
+@media (hover: hover) {
+  .simulateur-compare:hover .simulateur-poignee,
+  .simulateur-curseur:focus-visible .simulateur-poignee { transform: scale(1.08); }
+}
+
+.simulateur-compare.simulateur-actif .simulateur-poignee { transform: scale(1.08); }
+
+@media (min-width: 768px) {
+  .simulateur-compare { min-height: 14rem; }
+}
+
 /* ===== Le problème =====
    Section claire, dans le beige du site (même famille que « Formules » et la FAQ,
    qui utilisent aussi --creme-fonce). Un dégradé très doux et un voile terracotta
@@ -1282,6 +1497,33 @@ textarea { resize: vertical; }
   .pour-qui-carte:hover .icone-secteur { transform: none; }
 }
 
+/* ===== Fioritures d'interface (JS) =====
+   Barre de progression de lecture + trace d'encre au curseur. Purement
+   additif : posé par-dessus tout le reste, jamais de pointer-events. */
+.barre-progression {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background-image: linear-gradient(90deg, var(--terracotta), var(--olive));
+  z-index: 200;
+  pointer-events: none;
+  transition: width 0.12s linear;
+}
+
+.trace-encre {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .barre-progression { transition: none; }
+}
+
 /* ===== Pages annexes (merci, mentions légales) ===== */
 .page-simple {
   padding: 8.5rem 0 4rem;
@@ -1298,9 +1540,45 @@ textarea { resize: vertical; }
   padding: 2rem 1.5rem;
   box-shadow: var(--ombre);
   text-align: center;
+  opacity: 0;
+  transform: translateY(16px) scale(0.98);
+  animation: merci-arrivee 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s forwards;
 }
 
 .merci-carte .btn { margin-top: 1.5rem; width: auto; }
+
+/* Tampon rond « validé », dessiné en CSS/SVG : le trait se trace tout seul */
+.merci-tampon {
+  width: 4.5rem;
+  height: 4.5rem;
+  margin: 0 auto 1.25rem;
+  color: var(--olive);
+}
+
+.merci-tampon circle {
+  stroke-dasharray: 210;
+  stroke-dashoffset: 210;
+  animation: merci-trait 0.7s ease-out 0.3s forwards;
+}
+
+.merci-tampon path {
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: merci-trait 0.4s ease-out 0.9s forwards;
+}
+
+@keyframes merci-arrivee {
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes merci-trait {
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .merci-carte { opacity: 1; transform: none; animation: none; }
+  .merci-tampon circle, .merci-tampon path { stroke-dashoffset: 0; animation: none; }
+}
 
 /* ==========================================================
    PAGE TARIFS

@@ -302,4 +302,220 @@
       if (texte) texte.style.transform = "";
     });
   })();
+
+  /* ===== Barre de progression de lecture ===== */
+  (function () {
+    var barre = document.getElementById("barre-progression");
+    if (!barre) return;
+
+    var frame = null;
+
+    function mettreAJour() {
+      frame = null;
+      var hauteur = document.documentElement.scrollHeight - window.innerHeight;
+      var pourcentage = hauteur > 0 ? (window.scrollY / hauteur) * 100 : 0;
+      barre.style.width = pourcentage + "%";
+    }
+
+    window.addEventListener("scroll", function () {
+      if (frame === null) frame = window.requestAnimationFrame(mettreAJour);
+    }, { passive: true });
+    window.addEventListener("resize", mettreAJour);
+    mettreAJour();
+  })();
+
+  /* ===== Monogramme : le trait se dessine tout seul à l'arrivée ===== */
+  (function () {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    document.querySelectorAll(".logo-mark circle, .logo-mark path").forEach(function (forme, i) {
+      if (typeof forme.getTotalLength !== "function") return;
+      var longueur = forme.getTotalLength();
+      forme.style.strokeDasharray = longueur;
+      forme.style.strokeDashoffset = longueur;
+      // Force le recalcul de style avant de lancer la transition, sinon le
+      // navigateur applique directement l'état final sans jamais animer.
+      forme.getBoundingClientRect();
+      forme.style.transition = "stroke-dashoffset .9s cubic-bezier(.2,.7,.2,1) " + (i * 0.15) + "s";
+      forme.style.strokeDashoffset = "0";
+    });
+  })();
+
+  /* ===== Boutons magnétiques (CTA principaux, desktop uniquement) ===== */
+  (function () {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+    document.querySelectorAll(".btn-grand, .contact-appel-num").forEach(function (bouton) {
+      var frame = null;
+
+      bouton.addEventListener("pointermove", function (evenement) {
+        var rect = bouton.getBoundingClientRect();
+        var x = evenement.clientX - rect.left - rect.width / 2;
+        var y = evenement.clientY - rect.top - rect.height / 2;
+
+        if (frame === null) {
+          frame = window.requestAnimationFrame(function () {
+            frame = null;
+            bouton.style.transform = "translate(" + (x * 0.18) + "px, " + (y * 0.35) + "px)";
+          });
+        }
+      });
+
+      bouton.addEventListener("pointerleave", function () {
+        bouton.style.transform = "";
+      });
+    });
+  })();
+
+  /* ===== Bascule 3D des cartes au survol (desktop uniquement) ===== */
+  (function () {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+    document.querySelectorAll(".realisation-carte, .pour-qui-carte").forEach(function (carte) {
+      var frame = null;
+
+      carte.addEventListener("pointermove", function (evenement) {
+        var rect = carte.getBoundingClientRect();
+        var x = (evenement.clientX - rect.left) / rect.width - 0.5;
+        var y = (evenement.clientY - rect.top) / rect.height - 0.5;
+
+        if (frame === null) {
+          frame = window.requestAnimationFrame(function () {
+            frame = null;
+            carte.style.transform =
+              "perspective(900px) rotateX(" + (y * -6) + "deg) rotateY(" + (x * 8) + "deg) translateY(-4px)";
+          });
+        }
+      });
+
+      carte.addEventListener("pointerleave", function () {
+        carte.style.transform = "";
+      });
+    });
+  })();
+
+  /* ===== Trace d'encre au curseur (clin d'œil au monogramme, desktop uniquement) ===== */
+  (function () {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+    var canevas = document.createElement("canvas");
+    canevas.className = "trace-encre";
+    canevas.setAttribute("aria-hidden", "true");
+    document.body.appendChild(canevas);
+    var ctx = canevas.getContext("2d");
+    if (!ctx) return;
+
+    var particules = [];
+
+    function redimensionner() {
+      canevas.width = window.innerWidth;
+      canevas.height = window.innerHeight;
+    }
+    redimensionner();
+    window.addEventListener("resize", redimensionner);
+
+    document.addEventListener("pointermove", function (evenement) {
+      if (evenement.pointerType && evenement.pointerType !== "mouse") return;
+      particules.push({ x: evenement.clientX, y: evenement.clientY, vie: 1 });
+      if (particules.length > 40) particules.shift();
+    });
+
+    function dessiner() {
+      ctx.clearRect(0, 0, canevas.width, canevas.height);
+      particules.forEach(function (p) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 5 * p.vie, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(196, 87, 46, " + (0.35 * p.vie) + ")";
+        ctx.fill();
+        p.vie -= 0.035;
+      });
+      particules = particules.filter(function (p) { return p.vie > 0; });
+      window.requestAnimationFrame(dessiner);
+    }
+    window.requestAnimationFrame(dessiner);
+  })();
+
+  /* ===== Simulateur Google : comparateur avant / après à glisser ===== */
+  (function () {
+    var compare = document.getElementById("simulateur-compare");
+    var curseur = document.getElementById("simulateur-curseur");
+    if (!compare || !curseur) return;
+
+    function definirPosition(pourcent) {
+      if (pourcent < 0) pourcent = 0;
+      else if (pourcent > 100) pourcent = 100;
+      compare.style.setProperty("--pos", pourcent + "%");
+      curseur.setAttribute("aria-valuenow", Math.round(pourcent));
+    }
+
+    function pourcentDepuisEvenement(evenement) {
+      var rect = compare.getBoundingClientRect();
+      var x = evenement.clientX - rect.left;
+      return (x / rect.width) * 100;
+    }
+
+    var enTrain = false;
+    var utilisateurADeplace = false;
+
+    compare.addEventListener("pointerdown", function (evenement) {
+      enTrain = true;
+      utilisateurADeplace = true;
+      compare.classList.add("simulateur-actif");
+      compare.setPointerCapture(evenement.pointerId);
+      definirPosition(pourcentDepuisEvenement(evenement));
+    });
+
+    compare.addEventListener("pointermove", function (evenement) {
+      if (!enTrain) return;
+      definirPosition(pourcentDepuisEvenement(evenement));
+    });
+
+    function relacher() {
+      enTrain = false;
+      compare.classList.remove("simulateur-actif");
+    }
+
+    compare.addEventListener("pointerup", relacher);
+    compare.addEventListener("pointercancel", relacher);
+
+    curseur.addEventListener("keydown", function (evenement) {
+      var actuel = parseFloat(curseur.getAttribute("aria-valuenow"));
+      if (isNaN(actuel)) actuel = 50;
+
+      if (evenement.key === "ArrowLeft") { utilisateurADeplace = true; definirPosition(actuel - 5); evenement.preventDefault(); }
+      else if (evenement.key === "ArrowRight") { utilisateurADeplace = true; definirPosition(actuel + 5); evenement.preventDefault(); }
+      else if (evenement.key === "Home") { utilisateurADeplace = true; definirPosition(0); evenement.preventDefault(); }
+      else if (evenement.key === "End") { utilisateurADeplace = true; definirPosition(100); evenement.preventDefault(); }
+    });
+
+    // Petite invitation au premier passage en vue : un va-et-vient discret
+    // pour montrer que le curseur se glisse, sans jamais gêner la lecture.
+    var reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduit && "IntersectionObserver" in window) {
+      var observateurInvite = new IntersectionObserver(function (entrees) {
+        entrees.forEach(function (entree) {
+          if (!entree.isIntersecting || utilisateurADeplace) return;
+          observateurInvite.unobserve(compare);
+
+          var depart = null;
+          var duree = 1400;
+
+          function etape(temps) {
+            if (utilisateurADeplace) return;
+            if (depart === null) depart = temps;
+            var t = Math.min((temps - depart) / duree, 1);
+            var valeur = 30 + Math.sin(t * Math.PI * 2) * 16 * (1 - t);
+            definirPosition(valeur);
+            if (t < 1) window.requestAnimationFrame(etape);
+            else definirPosition(30);
+          }
+          window.requestAnimationFrame(etape);
+        });
+      }, { threshold: 0.5 });
+      observateurInvite.observe(compare);
+    }
+  })();
 })();

@@ -135,6 +135,8 @@
      =================================================================== -->
 <body data-fondateur="non">
 
+  <div class="barre-progression" id="barre-progression" aria-hidden="true"></div>
+
   <header class="header" id="header">
     <div class="header-inner">
       <a href="#" class="logo" aria-label="Olan Jouan, retour en haut de page">
@@ -194,6 +196,60 @@
             <div class="maquette-cou"></div>
             <div class="maquette-pied"></div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SIMULATEUR GOOGLE : la différence, en direct ===== -->
+    <section class="simulateur" id="simulateur" aria-labelledby="simulateur-titre">
+      <div class="conteneur conteneur-etroit simulateur-intro">
+        <p class="simulateur-etiquette">Exemple illustratif</p>
+        <h2 id="simulateur-titre">Faites glisser le curseur.</h2>
+        <p class="simulateur-texte">Voici ce qu'un client voit sur Google en cherchant votre activité&nbsp;: avant et après une fiche bien tenue. Rien ne coûte plus cher qu'un client qui vous cherche et ne vous trouve pas.</p>
+      </div>
+
+      <div class="conteneur simulateur-scene">
+        <div class="simulateur-barre-recherche" aria-hidden="true">
+          <svg class="simulateur-loupe" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span>poissonnier à montpellier</span>
+        </div>
+
+        <div class="simulateur-compare" id="simulateur-compare">
+          <div class="simulateur-panneau simulateur-apres" aria-hidden="true">
+            <article class="fiche-google">
+              <div class="fiche-photo" aria-hidden="true"></div>
+              <div class="fiche-corps">
+                <p class="fiche-nom">Poissonnerie du Marché</p>
+                <p class="fiche-note">
+                  <span class="fiche-etoiles" aria-hidden="true">★★★★★</span>
+                  <span>4,9&nbsp;· 127&nbsp;avis</span>
+                </p>
+                <p class="fiche-horaires"><span class="fiche-point" aria-hidden="true"></span>Ouvert · ferme à 19h30</p>
+              </div>
+            </article>
+          </div>
+
+          <div class="simulateur-panneau simulateur-avant" id="simulateur-avant" aria-hidden="true">
+            <article class="fiche-google">
+              <div class="fiche-photo fiche-photo-vide" aria-hidden="true">?</div>
+              <div class="fiche-corps">
+                <p class="fiche-nom fiche-nom-flou">Aucune fiche Google</p>
+                <p class="fiche-alerte">Invisible sur Maps</p>
+              </div>
+            </article>
+          </div>
+
+          <div class="simulateur-curseur" id="simulateur-curseur" role="slider" tabindex="0" aria-label="Comparer avant et après une fiche Google" aria-valuemin="0" aria-valuemax="100" aria-valuenow="30" aria-orientation="horizontal">
+            <span class="simulateur-poignee" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </span>
+          </div>
+        </div>
+
+        <div class="simulateur-etiquettes" aria-hidden="true">
+          <span>Sans fiche optimisée</span>
+          <span class="simulateur-etiquette-apres">Avec Olan Jouan</span>
         </div>
       </div>
     </section>
