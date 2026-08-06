@@ -2167,6 +2167,20 @@ body.transition-sortie {
   animation: aa-marquee 6s linear infinite;
 }
 
+/* Sur petit écran, le cadre 16/10 est trop bas pour le texte du mockup
+   « avant » (titre + paragraphe + bouton) : ça débordait et se faisait
+   couper par l'overflow:hidden. On l'agrandit et on allège le contenu. */
+@media (max-width: 480px) {
+  .aa-cadre { aspect-ratio: 3 / 4; }
+  .aa-panneau { padding: 1.1rem 1.25rem; }
+  .aa-avant h3 { font-size: 1.05rem; }
+  .aa-avant p { font-size: 0.75rem; }
+  .aa-avant .aa-bouton { font-size: 0.75rem; padding: 0.35rem 0.7rem; }
+  .aa-avant .aa-defilant { display: none; }
+  .aa-apres h3 { font-size: 1.15rem; }
+  .aa-apres p { font-size: 0.8rem; }
+}
+
 @keyframes aa-marquee {
   from { transform: translateX(100%); }
   to   { transform: translateX(-100%); }
