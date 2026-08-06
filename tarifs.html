@@ -342,6 +342,57 @@
       </div>
     </section>
 
+    <!-- ===== SIMULATEUR DE BUDGET ===== -->
+    <section class="simulateur" id="simulateur">
+      <div class="conteneur conteneur-etroit">
+        <h2>Simulez votre budget</h2>
+        <p class="simulateur-intro">Choisissez une formule et ajustez les options&nbsp;: le prix se met à jour en direct.</p>
+
+        <div class="simulateur-formules" role="radiogroup" aria-label="Choix de la formule">
+          <label class="simulateur-pilule">
+            <input type="radio" name="sim-formule" value="fiche">
+            <span>Fiche Google</span>
+          </label>
+          <label class="simulateur-pilule">
+            <input type="radio" name="sim-formule" value="essentiel" checked>
+            <span>Essentiel</span>
+          </label>
+          <label class="simulateur-pilule">
+            <input type="radio" name="sim-formule" value="boutique">
+            <span>Boutique</span>
+          </label>
+        </div>
+
+        <div class="simulateur-options" id="simulateur-options">
+          <div class="simulateur-ligne">
+            <label for="sim-pages">Pages supplémentaires <span class="simulateur-valeur" id="sim-pages-val">0</span></label>
+            <input type="range" id="sim-pages" min="0" max="10" step="1" value="0" aria-describedby="sim-pages-val">
+          </div>
+          <div class="simulateur-ligne">
+            <label for="sim-blog">Articles de blog optimisés <span class="simulateur-valeur" id="sim-blog-val">0</span></label>
+            <input type="range" id="sim-blog" min="0" max="5" step="1" value="0" aria-describedby="sim-blog-val">
+          </div>
+          <div class="simulateur-ligne" id="sim-produits-ligne" hidden>
+            <label for="sim-produits">Produits supplémentaires <span class="simulateur-valeur" id="sim-produits-val">0</span></label>
+            <input type="range" id="sim-produits" min="0" max="50" step="5" value="0" aria-describedby="sim-produits-val">
+          </div>
+          <div class="simulateur-case">
+            <label><input type="checkbox" id="sim-logo"> Création de logo <span class="simulateur-prix-option">+490&nbsp;€</span></label>
+          </div>
+          <div class="simulateur-case">
+            <label><input type="checkbox" id="sim-migration"> Migration d'un site existant <span class="simulateur-prix-option">+290&nbsp;€</span></label>
+          </div>
+        </div>
+
+        <div class="simulateur-total">
+          <p class="simulateur-total-etiquette">Estimation</p>
+          <p class="simulateur-total-prix" id="simulateur-total-prix">890&nbsp;€ HT</p>
+          <a href="/#contact" class="btn btn-grand btn-auto" id="simulateur-cta" data-formule="Essentiel – site one-page">Discuter de ce projet</a>
+          <p class="simulateur-note">Estimation indicative hors taxes, à affiner ensemble. Acompte de 40&nbsp;% à la commande.</p>
+        </div>
+      </div>
+    </section>
+
     <!-- ===== L'ENTRETIEN (ABONNEMENT OPTIONNEL) ===== -->
     <section class="abonnement" id="abonnement">
       <div class="conteneur conteneur-etroit">

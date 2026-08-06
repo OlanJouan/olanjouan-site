@@ -1968,6 +1968,9 @@ textarea { resize: vertical; }
 
   .hero-texte { max-width: 34rem; }
   .hero-maquette { max-width: none; }
+
+  /* Sur PC, le rayon animé alourdit le hero pour rien : coupé à partir de 900px. */
+  .hero-rayons { display: none; }
 }
 
 /* ==========================================================
@@ -2002,4 +2005,425 @@ textarea { resize: vertical; }
    sa largeur maximale et peut l'accueillir sans rien serrer. */
 @media (min-width: 1088px) {
   .btn-header { display: inline-block; margin-left: 0.4rem; }
+}
+
+/* ==========================================================
+   GADGETS : petits détails qui montrent le savoir-faire
+   ========================================================== */
+
+/* ===== Barre de progression de lecture (créée en JS) ===== */
+.progression-lecture {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0;
+  background: linear-gradient(90deg, var(--terracotta), var(--olive));
+  z-index: 101;
+  pointer-events: none;
+  transition: width 0.08s linear;
+}
+
+/* ===== Bouton marche/arrêt des sons (créé en JS) ===== */
+.son-bascule {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.5rem;
+  z-index: 80;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--blanc);
+  border: 1.5px solid var(--bordure);
+  color: var(--charbon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--ombre-haute);
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s ease, color 0.2s ease;
+}
+
+@media (hover: hover) {
+  .son-bascule:hover { border-color: var(--terracotta); color: var(--terracotta-fonce); transform: translateY(-2px); }
+}
+
+.son-bascule.son-coupe { color: var(--charbon-doux); }
+.son-bascule.son-coupe .son-ondes { opacity: 0.25; }
+
+.son-bascule.son-coupe::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 9px;
+  width: 26px;
+  height: 1.5px;
+  background: currentColor;
+  border-radius: 2px;
+  transform: translateY(-50%) rotate(-45deg);
+}
+
+/* Sur téléphone, on le remonte au-dessus du CTA collant (page tarifs) */
+@media (max-width: 767px) {
+  .son-bascule { bottom: 5.25rem; }
+}
+
+/* ===== Transitions de page douces (pas de rechargement blanc brutal) ===== */
+main {
+  animation: entree-page 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes entree-page {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* On ne fait varier que l'opacité du body : jamais son transform, sinon le
+   header en position fixe se mettrait à bouger avec lui pendant le fondu. */
+body {
+  opacity: 1;
+  transition: opacity 0.18s ease;
+}
+
+body.transition-sortie {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main { animation: none; }
+  body { transition: none; }
+}
+
+/* ===== Parallaxe légère au scroll (photo de la section « Mon histoire ») ===== */
+[data-parallax] { will-change: transform; }
+
+/* ===== Comparateur avant / après ===== */
+.avant-apres { margin-top: 2.5rem; }
+
+.aa-cadre {
+  position: relative;
+  overflow: hidden;
+  border-radius: calc(var(--rayon) * 1.5);
+  aspect-ratio: 16 / 10;
+  box-shadow: var(--ombre-haute);
+  background-color: var(--charbon);
+  user-select: none;
+  touch-action: pan-y;
+}
+
+.aa-panneau {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1.5rem 1.75rem;
+  overflow: hidden;
+}
+
+.aa-avant {
+  z-index: 2;
+  background: #1a2ecb;
+  color: #fff200;
+  font-family: "Comic Sans MS", "Comic Sans", cursive, var(--texte);
+  clip-path: inset(0 50% 0 0);
+}
+
+.aa-avant h3 {
+  font-family: inherit;
+  color: #fff200;
+  text-shadow: 2px 2px 0 #ff2d55;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.aa-avant p {
+  font-family: "Times New Roman", Times, serif;
+  color: #d8dcff;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.aa-avant .aa-bouton {
+  background: #ffe000;
+  color: #b3001b;
+  border: 3px dashed #ff2d55;
+  padding: 0.4rem 0.8rem;
+  font-weight: 700;
+  font-size: 0.8rem;
+  transform: rotate(-3deg);
+}
+
+.aa-avant .aa-defilant {
+  position: absolute;
+  bottom: 0.6rem;
+  left: 0;
+  white-space: nowrap;
+  font-size: 0.7rem;
+  color: #fff200;
+  animation: aa-marquee 6s linear infinite;
+}
+
+@keyframes aa-marquee {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(-100%); }
+}
+
+.aa-apres {
+  z-index: 1;
+  background: linear-gradient(150deg, #201b14 0%, #8a3f22 45%, #c4572e 100%);
+  color: var(--blanc);
+  /* Le panneau « après » n'est jamais découpé (c'est le panneau « avant » qui
+     glisse par-dessus) : son contenu doit donc rester ancré à droite du cadre,
+     sinon il reste caché derrière « avant » tant que le curseur n'est pas
+     poussé très à gauche. */
+  align-items: flex-end;
+  text-align: right;
+}
+
+.aa-apres p.aa-etiquette-service {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #f0e4d8;
+  margin-bottom: 0.4rem;
+}
+
+.aa-apres h3 {
+  font-family: var(--titres);
+  color: var(--blanc);
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.aa-apres p {
+  font-size: 0.85rem;
+  color: #f0e4d8;
+  max-width: 20rem;
+  margin-bottom: 0.9rem;
+}
+
+.aa-apres .aa-bouton {
+  background: var(--terracotta);
+  color: var(--blanc);
+  border: none;
+  border-radius: var(--rayon);
+  padding: 0.55rem 1.1rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+  font-family: var(--texte);
+}
+
+.aa-diviseur {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  background: var(--blanc);
+  transform: translateX(-50%);
+  z-index: 3;
+  pointer-events: none;
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.18);
+}
+
+.aa-poignee {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--blanc);
+  color: var(--charbon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  box-shadow: var(--ombre-haute);
+}
+
+.aa-curseur {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: ew-resize;
+  z-index: 4;
+}
+
+.aa-curseur::-webkit-slider-runnable-track { background: transparent; }
+.aa-curseur::-webkit-slider-thumb { -webkit-appearance: none; width: 100%; height: 100%; background: transparent; cursor: ew-resize; }
+.aa-curseur::-moz-range-track { background: transparent; border: none; }
+.aa-curseur::-moz-range-thumb { width: 100%; height: 100%; background: transparent; border: none; cursor: ew-resize; }
+
+.aa-etiquettes {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--charbon-doux);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aa-avant .aa-defilant { animation: none; }
+}
+
+/* ===== Formulaire : petites coches de validation en temps réel ===== */
+.champ { position: relative; }
+
+.champ-icone {
+  position: absolute;
+  right: 0.85rem;
+  bottom: 0.85rem;
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  color: #2e7d32;
+  pointer-events: none;
+}
+
+.champ-icone.visible { opacity: 1; transform: scale(1); }
+
+input.champ-valide, textarea.champ-valide { border-color: #2e7d32; }
+
+@keyframes secousse-champ {
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+input.champ-invalide, textarea.champ-invalide { animation: secousse-champ 0.3s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  input.champ-invalide, textarea.champ-invalide { animation: none; }
+}
+
+/* ===== Simulateur de budget (page tarifs) ===== */
+.simulateur { background-color: var(--creme-fonce); }
+
+.simulateur-intro { color: var(--charbon-doux); margin-bottom: 1.75rem; }
+
+.simulateur-formules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1.75rem;
+}
+
+.simulateur-pilule { position: relative; }
+
+.simulateur-pilule input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.simulateur-pilule span {
+  display: inline-block;
+  padding: 0.6rem 1.15rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--bordure);
+  background: var(--blanc);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.simulateur-pilule input:checked + span {
+  background-color: var(--terracotta);
+  border-color: var(--terracotta);
+  color: var(--blanc);
+}
+
+.simulateur-pilule input:focus-visible + span {
+  outline: 3px solid var(--terracotta);
+  outline-offset: 2px;
+}
+
+.simulateur-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  margin-bottom: 1.75rem;
+}
+
+.simulateur-ligne label {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  font-size: 0.98rem;
+}
+
+.simulateur-valeur { color: var(--terracotta); }
+
+.simulateur-ligne input[type="range"] {
+  width: 100%;
+  accent-color: var(--terracotta);
+}
+
+.simulateur-case label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.simulateur-case input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--terracotta);
+  flex-shrink: 0;
+}
+
+.simulateur-prix-option { color: var(--charbon-doux); font-weight: 400; }
+
+.simulateur-total {
+  text-align: center;
+  background: var(--blanc);
+  border-radius: var(--rayon);
+  padding: 1.75rem 1.5rem;
+  box-shadow: var(--ombre);
+}
+
+.simulateur-total-etiquette {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--olive);
+  margin-bottom: 0.35rem;
+}
+
+.simulateur-total-prix {
+  font-family: var(--titres);
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--terracotta);
+  margin-bottom: 1.25rem;
+}
+
+.simulateur-note {
+  font-size: 0.85rem;
+  color: var(--charbon-doux);
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .aa-avant p, .aa-apres p { font-size: 0.95rem; }
+  .aa-avant h3, .aa-apres h3 { font-size: 1.6rem; }
 }
