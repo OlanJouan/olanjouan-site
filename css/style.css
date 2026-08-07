@@ -2159,10 +2159,15 @@ body.transition-sortie {
   z-index: 4;
 }
 
+/* Le thumb garde une taille normale (comme n'importe quel curseur de range) :
+   un thumb étiré à 100% de la piste perturbe le calcul du glissement dans
+   plusieurs navigateurs et peut carrément bloquer le drag. Cliquer ou
+   glisser n'importe où sur le cadre reste possible : c'est le comportement
+   natif du track, indépendant de la taille du thumb. */
 .aa-curseur::-webkit-slider-runnable-track { background: transparent; }
-.aa-curseur::-webkit-slider-thumb { -webkit-appearance: none; width: 100%; height: 100%; background: transparent; cursor: ew-resize; }
+.aa-curseur::-webkit-slider-thumb { -webkit-appearance: none; width: 44px; height: 44px; background: transparent; cursor: ew-resize; }
 .aa-curseur::-moz-range-track { background: transparent; border: none; }
-.aa-curseur::-moz-range-thumb { width: 100%; height: 100%; background: transparent; border: none; cursor: ew-resize; }
+.aa-curseur::-moz-range-thumb { width: 44px; height: 44px; background: transparent; border: none; cursor: ew-resize; }
 
 .aa-etiquettes {
   display: flex;
