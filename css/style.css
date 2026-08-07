@@ -340,7 +340,7 @@ section { padding: 3.5rem 0; }
   z-index: 1;
   pointer-events: none;
   background:
-    radial-gradient(36rem 36rem at 14% 32%, rgba(196, 87, 46, 0.32), transparent 60%),
+    radial-gradient(36rem 36rem at 52% 30%, rgba(196, 87, 46, 0.32), transparent 60%),
     radial-gradient(40rem 40rem at 40% 76%, rgba(107, 107, 74, 0.26), transparent 62%);
   animation: hero-derive 20s ease-in-out infinite alternate;
   will-change: transform;
