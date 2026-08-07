@@ -323,7 +323,7 @@ section { padding: 3.5rem 0; }
   background:
     radial-gradient(circle at 88% -10%, rgba(196, 87, 46, 0.35), transparent 55%),
     linear-gradient(
-      150deg,
+      90deg,
       #14110d 0%,
       #201b14 20%,
       #8a3f22 39%,
@@ -1951,7 +1951,7 @@ textarea { resize: vertical; }
     background:
       radial-gradient(circle at 88% -10%, rgba(196, 87, 46, 0.35), transparent 55%),
       linear-gradient(
-        102deg,
+        90deg,
         #14110d 0%,
         #201b14 20%,
         #8a3f22 39%,
