@@ -333,25 +333,7 @@ section { padding: 3.5rem 0; }
     );
 }
 
-/* Couche 2 : deux halos colorés qui dérivent très lentement */
-.hero-halo {
-  position: absolute;
-  inset: -12%;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    radial-gradient(36rem 36rem at 52% 30%, rgba(196, 87, 46, 0.32), transparent 60%),
-    radial-gradient(40rem 40rem at 40% 76%, rgba(107, 107, 74, 0.26), transparent 62%);
-  animation: hero-derive 20s ease-in-out infinite alternate;
-  will-change: transform;
-}
-
-@keyframes hero-derive {
-  from { transform: translate3d(0, 0, 0) scale(1); }
-  to   { transform: translate3d(3%, 3%, 0) scale(1.09); }
-}
-
-/* Couche 2 bis : rayons de lumière qui balaient lentement le dégradé.
+/* Couche 2 : rayons de lumière qui balaient lentement le dégradé.
    Purement décoratif (aria-hidden dans le HTML). Placé sous le grain
    pour que la texture papier passe par-dessus et intègre les rayons.
    On n'anime que transform et opacity : aucun recalcul de mise en page. */
@@ -576,7 +558,6 @@ section { padding: 3.5rem 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-halo { animation: none; }
   .maquette-imac { transition: none; }
   .maquette-capture { animation: none; top: 0; }
   /* Rayons figés en milieu de course, pour garder l'effet de lumière sans mouvement. */
