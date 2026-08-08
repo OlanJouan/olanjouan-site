@@ -78,6 +78,7 @@ a:hover { color: var(--terracotta-fonce); }
 }
 
 .conteneur-etroit { max-width: 46rem; }
+.conteneur-large { max-width: 90rem; }
 
 section { padding: 3.5rem 0; }
 
@@ -1557,6 +1558,7 @@ textarea { resize: vertical; }
 .abonnement-intro {
   color: var(--charbon-doux);
   margin-bottom: 1.75rem;
+  max-width: 46rem;
 }
 
 .abonnement-liste {
@@ -1580,6 +1582,7 @@ textarea { resize: vertical; }
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--olive);
+  max-width: 46rem;
 }
 
 /* ===== Tableaux (comparatif et options) ===== */
@@ -1816,6 +1819,14 @@ textarea { resize: vertical; }
   .cartes {
     grid-template-columns: repeat(3, 1fr);
     align-items: stretch;
+  }
+
+  /* Grilles à deux cartes seulement (page tarifs) : deux colonnes égales,
+     sinon la 3e colonne du modèle ci-dessus reste vide et pousse les
+     cartes vers la gauche. */
+  .cartes-tarifs,
+  .abonnement .cartes {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .carte-star { --lift: -0.75rem; }
@@ -2168,120 +2179,5 @@ input.champ-invalide, textarea.champ-invalide { animation: secousse-champ 0.3s e
 
 @media (prefers-reduced-motion: reduce) {
   input.champ-invalide, textarea.champ-invalide { animation: none; }
-}
-
-/* ===== Simulateur de budget (page tarifs) ===== */
-.simulateur { background-color: var(--creme-fonce); }
-
-.simulateur-intro { color: var(--charbon-doux); margin-bottom: 1.75rem; }
-
-.simulateur-formules {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  margin-bottom: 1.75rem;
-}
-
-.simulateur-pilule { position: relative; }
-
-.simulateur-pilule input {
-  position: absolute;
-  opacity: 0;
-  width: 1px;
-  height: 1px;
-}
-
-.simulateur-pilule span {
-  display: inline-block;
-  padding: 0.6rem 1.15rem;
-  border-radius: 999px;
-  border: 1.5px solid var(--bordure);
-  background: var(--blanc);
-  font-weight: 700;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-}
-
-.simulateur-pilule input:checked + span {
-  background-color: var(--terracotta);
-  border-color: var(--terracotta);
-  color: var(--blanc);
-}
-
-.simulateur-pilule input:focus-visible + span {
-  outline: 3px solid var(--terracotta);
-  outline-offset: 2px;
-}
-
-.simulateur-options {
-  display: flex;
-  flex-direction: column;
-  gap: 1.4rem;
-  margin-bottom: 1.75rem;
-}
-
-.simulateur-ligne label {
-  display: flex;
-  justify-content: space-between;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  font-size: 0.98rem;
-}
-
-.simulateur-valeur { color: var(--terracotta); }
-
-.simulateur-ligne input[type="range"] {
-  width: 100%;
-  accent-color: var(--terracotta);
-}
-
-.simulateur-case label {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.simulateur-case input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  accent-color: var(--terracotta);
-  flex-shrink: 0;
-}
-
-.simulateur-prix-option { color: var(--charbon-doux); font-weight: 400; }
-
-.simulateur-total {
-  text-align: center;
-  background: var(--blanc);
-  border-radius: var(--rayon);
-  padding: 1.75rem 1.5rem;
-  box-shadow: var(--ombre);
-}
-
-.simulateur-total-etiquette {
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--olive);
-  margin-bottom: 0.35rem;
-}
-
-.simulateur-total-prix {
-  font-family: var(--titres);
-  font-size: 2.4rem;
-  font-weight: 800;
-  color: var(--terracotta);
-  margin-bottom: 1.25rem;
-}
-
-.simulateur-note {
-  font-size: 0.85rem;
-  color: var(--charbon-doux);
-  margin-top: 1rem;
-  margin-bottom: 0;
 }
 
