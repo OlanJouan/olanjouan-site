@@ -243,6 +243,11 @@
     var rangs = [];
 
     elements.forEach(function (element) {
+      // Déjà visible à l'arrivée sur la page : on n'anime pas, pour éviter
+      // qu'une cascade de blocs ne se mette à bouger d'un coup au chargement.
+      // Seul ce qui apparaît en scrollant plus bas est animé.
+      if (element.getBoundingClientRect().top < window.innerHeight) return;
+
       var parent = element.parentElement;
       var i = parents.indexOf(parent);
 

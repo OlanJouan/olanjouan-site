@@ -1210,6 +1210,22 @@ textarea { resize: vertical; }
   .carte:hover { transform: translateY(var(--lift)); }
 }
 
+/* ===== Transition entre les pages =====
+   Fondu enchaîné natif du navigateur entre l'ancienne et la nouvelle page,
+   à la place du rechargement brut. Se dégrade sans casse là où ce n'est
+   pas supporté : la navigation redevient simplement instantanée. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.45s;
+    animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+}
+
 /* ===== Pages annexes (merci, mentions légales) ===== */
 .page-simple {
   padding: 8.5rem 0 4rem;
@@ -1991,9 +2007,14 @@ textarea { resize: vertical; }
   .son-bascule { bottom: 5.25rem; }
 }
 
-/* ===== Transitions de page douces (pas de rechargement blanc brutal) ===== */
-main {
-  animation: entree-page 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+/* ===== Transitions de page douces (pas de rechargement blanc brutal) =====
+   Repli pour les navigateurs sans View Transitions API (voir plus haut) :
+   là où la transition native existe déjà, cette animation ferait doublon
+   avec elle et donnerait une arrivée à deux temps au lieu d'une seule. */
+@supports not (view-transition-name: none) {
+  main {
+    animation: entree-page 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
 }
 
 @keyframes entree-page {
