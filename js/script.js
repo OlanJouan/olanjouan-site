@@ -664,7 +664,7 @@
   var totalPrix = document.getElementById("simulateur-total-prix");
   var cta = document.getElementById("simulateur-cta");
 
-  var PRIX = { fiche: 225, essentiel: 890, boutique: 1890 };
+  var PRIX = { fiche: 190, essentiel: 890, boutique: 1890 };
   var NOMS = {
     fiche: "Fiche Google Business",
     essentiel: "Essentiel – site one-page",
