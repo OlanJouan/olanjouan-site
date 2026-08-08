@@ -629,56 +629,6 @@ section { padding: 3.5rem 0; }
   font-weight: 600;
 }
 
-/* ===== Pour qui je travaille ===== */
-.pour-qui-intro {
-  color: var(--charbon-doux);
-  font-size: 1.1rem;
-  max-width: 44rem;
-  margin-bottom: 2.5rem;
-}
-
-.pour-qui-grille {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.25rem;
-}
-
-.pour-qui-carte {
-  background-color: var(--blanc);
-  border: 1px solid var(--bordure);
-  border-radius: var(--rayon);
-  box-shadow: var(--ombre);
-  padding: 1.5rem 1.4rem;
-  /* Contient l'agrandissement de l'icône au survol. */
-  overflow: hidden;
-}
-
-.icone-secteur {
-  color: var(--terracotta);
-  margin-bottom: 0.85rem;
-  transform-origin: left center;
-  transition: transform 0.5s ease;
-}
-
-.pour-qui-carte h3 {
-  font-size: 1.1rem;
-  margin-bottom: 0.35rem;
-}
-
-.pour-qui-carte p {
-  color: var(--charbon-doux);
-  font-size: 0.98rem;
-  margin-bottom: 0;
-}
-
-.pour-qui-cloture {
-  color: var(--charbon);
-  font-weight: 600;
-  font-size: 1.05rem;
-  max-width: 44rem;
-  margin-top: 2.25rem;
-}
-
 /* ===== Réalisations ===== */
 .realisations-intro {
   color: var(--charbon-doux);
@@ -1248,8 +1198,6 @@ textarea { resize: vertical; }
     border-color: var(--terracotta);
   }
 
-  .pour-qui-carte:hover .icone-secteur { transform: scale(1.05); }
-
   .faq-question:hover { background-color: var(--creme-fonce); }
 }
 
@@ -1260,7 +1208,6 @@ textarea { resize: vertical; }
   /* Survols : on garde les changements de couleur et d'ombre, on retire les déplacements. */
   .btn:hover, .btn:active { transform: none; }
   .carte:hover { transform: translateY(var(--lift)); }
-  .pour-qui-carte:hover .icone-secteur { transform: none; }
 }
 
 /* ===== Pages annexes (merci, mentions légales) ===== */
@@ -1844,7 +1791,6 @@ textarea { resize: vertical; }
     gap: 3.5rem;
   }
 
-  .pour-qui-grille { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
   .realisations-grille { grid-template-columns: repeat(2, 1fr); gap: 1.75rem; }
 
   .histoire-photo { flex: 0 0 38%; }
@@ -1976,10 +1922,6 @@ textarea { resize: vertical; }
     padding-left: 1.25rem;
     border-left: 1px solid var(--bordure);
   }
-}
-
-@media (min-width: 1024px) {
-  .pour-qui-grille { grid-template-columns: repeat(3, 1fr); }
 }
 
 /* Le bouton d'action n'apparaît qu'à partir de 1088 px, là où la barre atteint
