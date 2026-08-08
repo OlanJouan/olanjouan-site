@@ -1844,50 +1844,6 @@ textarea { resize: vertical; }
   transition: width 0.08s linear;
 }
 
-/* ===== Bouton marche/arrêt des sons (créé en JS) ===== */
-.son-bascule {
-  position: fixed;
-  right: 1.25rem;
-  bottom: 1.5rem;
-  z-index: 80;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background-color: var(--blanc);
-  border: 1.5px solid var(--bordure);
-  color: var(--charbon);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: var(--ombre-haute);
-  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s ease, color 0.2s ease;
-}
-
-@media (hover: hover) {
-  .son-bascule:hover { border-color: var(--terracotta); color: var(--terracotta-fonce); transform: translateY(-2px); }
-}
-
-.son-bascule.son-coupe { color: var(--charbon-doux); }
-.son-bascule.son-coupe .son-ondes { opacity: 0.25; }
-
-.son-bascule.son-coupe::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 9px;
-  width: 26px;
-  height: 1.5px;
-  background: currentColor;
-  border-radius: 2px;
-  transform: translateY(-50%) rotate(-45deg);
-}
-
-/* Sur téléphone, on le remonte au-dessus du CTA collant (page tarifs) */
-@media (max-width: 767px) {
-  .son-bascule { bottom: 5.25rem; }
-}
-
 /* ===== Transitions de page douces (pas de rechargement blanc brutal) =====
    Repli pour les navigateurs sans View Transitions API (voir plus haut) :
    là où la transition native existe déjà, cette animation ferait doublon

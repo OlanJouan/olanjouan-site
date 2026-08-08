@@ -195,7 +195,6 @@
         .then(function (reponse) { return reponse.json(); })
         .then(function (resultat) {
           if (resultat.success) {
-            if (window.OJSons) window.OJSons.succes();
             document.body.classList.add("transition-sortie");
             window.setTimeout(function () {
               window.location.href = "merci.html";
@@ -313,85 +312,6 @@
   })();
 })();
 
-/* ===== Sons discrets + bouton marche/arrêt (présent sur toutes les pages) =====
-   Sons synthétisés avec l'API Web Audio : aucun fichier à charger, rien à
-   attendre. Actif par défaut, mémorisé dans localStorage, coupable en un clic. */
-(function () {
-  "use strict";
-
-  var CLE_PREF = "oj-sons";
-  var actif = window.localStorage.getItem(CLE_PREF) !== "non";
-  var contexteAudio = null;
-
-  function contexte() {
-    var AC = window.AudioContext || window.webkitAudioContext;
-    if (!AC) return null;
-    if (!contexteAudio) contexteAudio = new AC();
-    if (contexteAudio.state === "suspended") contexteAudio.resume();
-    return contexteAudio;
-  }
-
-  function jouerMaintenant(frequence, duree, volume) {
-    var ctx = contexte();
-    if (!ctx) return;
-    var oscillateur = ctx.createOscillator();
-    var gain = ctx.createGain();
-    oscillateur.type = "triangle";
-    oscillateur.frequency.setValueAtTime(frequence, ctx.currentTime);
-    gain.gain.setValueAtTime(volume, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duree);
-    oscillateur.connect(gain);
-    gain.connect(ctx.destination);
-    oscillateur.start();
-    oscillateur.stop(ctx.currentTime + duree);
-  }
-
-  function jouerTon(frequence, duree, volume, delai) {
-    if (!actif) return;
-    if (!delai) { jouerMaintenant(frequence, duree, volume); return; }
-    window.setTimeout(function () { jouerMaintenant(frequence, duree, volume); }, delai);
-  }
-
-  // Volume nettement plus audible que le premier réglage (0.05 : quasi
-  // inaudible sur la plupart des haut-parleurs). Triangle plutôt que sine :
-  // plus de présence, ça se remarque sans devenir criard.
-  function sonClic() { jouerTon(880, 0.11, 0.22); }
-  function sonSucces() { jouerTon(660, 0.14, 0.22); jouerTon(990, 0.2, 0.22, 100); }
-
-  window.OJSons = { clic: sonClic, succes: sonSucces };
-
-  document.addEventListener("click", function (evenement) {
-    if (evenement.target.closest(".btn")) sonClic();
-  });
-
-  var bouton = document.createElement("button");
-  bouton.type = "button";
-  bouton.className = "son-bascule";
-
-  bouton.innerHTML =
-    '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" ' +
-    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-    '<path d="M11 5 6 9H2v6h4l5 4V5z"></path>' +
-    '<path class="son-ondes" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"></path>' +
-    "</svg>";
-
-  function majBouton() {
-    bouton.classList.toggle("son-coupe", !actif);
-    bouton.setAttribute("aria-pressed", actif ? "true" : "false");
-    bouton.setAttribute("aria-label", actif ? "Désactiver les sons du site" : "Activer les sons du site");
-  }
-  majBouton();
-
-  bouton.addEventListener("click", function () {
-    actif = !actif;
-    window.localStorage.setItem(CLE_PREF, actif ? "oui" : "non");
-    majBouton();
-    if (actif) jouerTon(880, 0.11, 0.22);
-  });
-
-  document.body.appendChild(bouton);
-})();
-
 /* ===== Barre de progression de lecture ===== */
 (function () {
   "use strict";
@@ -420,7 +340,12 @@
 /* ===== Parallaxe légère au scroll =====
    S'applique aux éléments qui portent [data-parallax="0.xx"]. Le facteur fixe
    l'amplitude du décalage. On lit aussi data-parallax-base pour ne pas écraser
-   une éventuelle rotation ou tout autre transform déjà posé en CSS. */
+   une éventuelle rotation ou tout autre transform déjà posé en CSS.
+   Le décalage est plafonné (data-parallax-max, en pixels) : sans ça, plus on
+   scrolle loin du centre de l'écran, plus l'élément dérive — sur mobile, la
+   photo de « Mon histoire » finissait par glisser sur le texte juste en
+   dessous. Avec un plafond, le mouvement reste toujours visible mais ne
+   dépasse jamais une poignée de pixels, quelle que soit la distance de scroll. */
 (function () {
   "use strict";
 
@@ -438,8 +363,12 @@
       var rect = element.getBoundingClientRect();
       var distance = rect.top + rect.height / 2 - milieu;
       var facteur = parseFloat(element.getAttribute("data-parallax")) || 0.1;
+      var max = parseFloat(element.getAttribute("data-parallax-max")) || 14;
       var base = element.getAttribute("data-parallax-base") || "";
-      element.style.transform = base + " translateY(" + (distance * facteur * -1).toFixed(1) + "px)";
+      var decalage = distance * facteur * -1;
+      if (decalage > max) decalage = max;
+      else if (decalage < -max) decalage = -max;
+      element.style.transform = base + " translateY(" + decalage.toFixed(1) + "px)";
     });
   }
 
